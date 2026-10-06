@@ -1,6 +1,6 @@
 {
   "name": "@beadsily/storefront",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "BeadsILY direct-to-consumer accessible mobile-first commerce storefront",
   "type": "module",
   "scripts": {

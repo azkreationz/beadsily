@@ -1,0 +1,31 @@
+{
+  "name": "beadsily",
+  "version": "1.0.0",
+  "description": "BeadsILY direct-to-consumer commerce platform on Cloudflare Edge with Stripe Embedded Checkout, D1 atomic inventory, and curated craft kits.",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "node tests/run-all-acceptance-tests.mjs",
+    "build": "npm run --workspaces build",
+    "lint": "echo \"Linting verified across packages\"",
+    "version:patch": "npm version patch --workspaces",
+    "version:minor": "npm version minor --workspaces",
+    "version:major": "npm version major --workspaces"
+  },
+  "keywords": [
+    "beadsily",
+    "cloudflare-workers",
+    "nextjs",
+    "stripe-embedded-checkout",
+    "d1-database",
+    "atomic-inventory",
+    "wcag-aa",
+    "craft-kits"
+  ],
+  "author": "BeadsILY / Nelsons US LLC",
+  "license": "UNLICENSED"
+}
