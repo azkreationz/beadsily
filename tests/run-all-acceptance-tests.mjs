@@ -35,8 +35,9 @@ const testSuites = [
   // 6. Subscriptions Lifecycle & Entitlements (SUB-01..06)
   path.join(__dirname, 'subscriptions', 'subscriptions.test.mjs'),
 
-  // 7. Transactional Email & Queues (EMAIL-01..04)
+  // 7. Transactional Email & Queues (EMAIL-01..04) - Production & Acceptance Harness
   path.join(__dirname, 'email', 'email-queue.test.mjs'),
+  path.join(__dirname, '..', 'packages', 'email', 'tests', 'email-queue.test.mjs'),
 
   // 8. Technical SEO & SSR Structured Data (SEO-01..02)
   path.join(__dirname, 'seo', 'seo-metadata.test.mjs'),
