@@ -1,5 +1,7 @@
 export * from './tokens';
 export * from './tailwind.preset';
+export * from './components';
+export * from './utils/cn';
 
 export const BRAND_ASSET_PATHS = {
   logoPrimary: '/brand/beadsily-logo.svg',

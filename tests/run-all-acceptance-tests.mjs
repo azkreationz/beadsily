@@ -43,6 +43,9 @@ const testSuites = [
 
   // 9. School Festival Booth & Novice Usability (EVENT-01..02, KIT-01)
   path.join(__dirname, 'event', 'booth-reconciliation.test.mjs'),
+
+  // 10. Storefront UI Primitives & WCAG 2.2 AA Accessibility (UI-01..05) - Authored by Erin
+  path.join(__dirname, 'ui', 'storefront-components.test.mjs'),
 ];
 
 console.log('======================================================================');
@@ -60,6 +63,7 @@ console.log('  - SEC-01..03 : RBAC, CSRF, Turnstile, COPPA & Log Scrubber');
 console.log('  - SEO-01..02 : SSR Metadata, Product Schemas, 301 Canonical Redirects');
 console.log('  - EVENT-01..02: School Booth POS Rehearsal & Offline Idempotent Sync');
 console.log('  - KIT-01     : Novice Host Assembly Usability Verification');
+console.log('  - UI-01..05  : WCAG 2.2 AA Contrast, Component Primitives, 15-Guest Touch Target');
 console.log('======================================================================\n');
 
 run({ files: testSuites })
