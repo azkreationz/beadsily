@@ -7,6 +7,13 @@
 import { resolveCanonicalUrl } from './lib/seo.mjs';
 import { getMysteryCatalog, allocateMysteryUnit, auditMysteryReturn, MYSTERY_TIERS } from '@beadsily/db';
 import { createStripeClient, createEmbeddedCheckoutSession, handleStripeWebhook } from '@beadsily/payments';
+import {
+  createSessionToken,
+  verifySessionToken,
+  formatSessionCookie,
+  formatSessionClearCookie,
+  extractSessionCookie,
+} from '@beadsily/auth';
 
 export interface Env {
   DB: any;
@@ -14,6 +21,32 @@ export interface Env {
   STRIPE_SECRET_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
   SESSION_SECRET?: string;
+  ADMIN_PASSKEY?: string;
+}
+
+const ADMIN_DEFAULT_PASSKEY = 'BeadsILY-Craft-Admin-2026!';
+
+async function isAuthorizedAdmin(request: Request, env: Env): Promise<boolean> {
+  const adminPasskey = env.ADMIN_PASSKEY || ADMIN_DEFAULT_PASSKEY;
+  const secret = env.SESSION_SECRET || adminPasskey;
+
+  const authHeader = request.headers.get('authorization') || '';
+  if (authHeader.startsWith('Bearer ')) {
+    const token = authHeader.slice(7).trim();
+    if (token === adminPasskey) return true;
+  }
+  const passkeyHeader = request.headers.get('x-admin-passkey');
+  if (passkeyHeader && passkeyHeader === adminPasskey) return true;
+
+  const cookieToken = extractSessionCookie(request);
+  if (cookieToken) {
+    const res = await verifySessionToken(cookieToken, secret);
+    if (res.valid && res.session && (res.session.role === 'owner' || res.session.role === 'auditor')) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function getHtmlLayout(title: string, bodyContent: string, currentPath: string = '/', isTeaser: boolean = false): string {
@@ -36,6 +69,7 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title} | BeadsILY</title>
   <meta name="description" content="BeadsILY delivers tactile 15-guest party craft kits and curated mystery craft boxes with premium beads, focals, and hardware." />
+  ${currentPath.startsWith('/admin') ? '<meta name="robots" content="noindex, nofollow, noarchive" />' : ''}
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="canonical" href="https://beadsily.com${currentPath === '/' ? '' : currentPath}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -537,6 +571,53 @@ function renderCheckoutPage(url: URL): string {
   return getHtmlLayout('Secure Checkout', content, '/checkout');
 }
 
+function renderAdminLoginPage(error?: string): string {
+  const content = `
+    <section class="max-w-md mx-auto px-4 py-16">
+      <div class="bg-white rounded-3xl p-8 border border-cream-200 shadow-md space-y-6">
+        <div class="text-center space-y-2">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-pink-50 border border-pink-500/20 text-2xl">
+            🔐
+          </div>
+          <h1 class="text-2xl font-black text-charcoal-950 tracking-tight">Admin Gatekeeper</h1>
+          <p class="text-xs text-neutral-500">Restricted operational access. Enter your administrative passkey to unlock the BeadsILY Command Center.</p>
+        </div>
+
+        ${error ? `
+          <div class="p-3.5 rounded-xl bg-rose/10 border border-rose/30 text-rose text-xs font-semibold text-center">
+            ${error}
+          </div>
+        ` : ''}
+
+        <form method="POST" action="/admin/login" class="space-y-4">
+          <div class="space-y-1.5">
+            <label for="passkey" class="block text-xs font-bold uppercase tracking-wider text-charcoal-950">Administrative Passkey</label>
+            <input 
+              id="passkey" 
+              name="passkey" 
+              type="password" 
+              placeholder="••••••••••••••••" 
+              autofocus
+              required 
+              class="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-100 text-sm font-mono text-charcoal-950 focus:outline-none focus:ring-2 focus:ring-pink-500" 
+            />
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-3 rounded-xl text-sm font-bold shadow-sm active:scale-95 transition-transform flex items-center justify-center gap-2">
+            <span>Unlock Command Center</span>
+            <span>→</span>
+          </button>
+        </form>
+
+        <div class="pt-4 border-t border-cream-200 text-center">
+          <a href="/" class="text-xs text-neutral-400 hover:text-charcoal-950 transition-colors">← Return to Storefront</a>
+        </div>
+      </div>
+    </section>
+  `;
+  return getHtmlLayout('Admin Gatekeeper', content, '/admin/login');
+}
+
 function renderAdminPage(subscribers: any[] = []): string {
   const count = subscribers.length;
   const content = `
@@ -552,6 +633,9 @@ function renderAdminPage(subscribers: any[] = []): string {
         <div class="flex items-center gap-3">
           <a href="/admin/subscribers.csv" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm">
             <span>📥 Export Subscribers (CSV)</span>
+          </a>
+          <a href="/admin/logout" class="px-4 py-2.5 rounded-xl text-xs font-bold border border-rose/30 bg-white text-rose hover:bg-rose/5 transition-colors">
+            🔒 Lock & Logout
           </a>
           <a href="/" target="_blank" class="px-4 py-2.5 rounded-xl text-xs font-bold border border-cream-300 bg-white text-charcoal-900 hover:bg-cream-50 transition-colors">
             Live Storefront ↗
@@ -701,7 +785,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.2.3',
+          version: '1.2.4',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
@@ -911,7 +995,98 @@ export default {
         });
       }
 
+      if (url.pathname === '/admin/login') {
+        if (request.method === 'POST') {
+          try {
+            const formData = await request.formData();
+            const passkey = (formData.get('passkey') || '').toString().trim();
+            const expectedPasskey = env.ADMIN_PASSKEY || ADMIN_DEFAULT_PASSKEY;
+            const secret = env.SESSION_SECRET || expectedPasskey;
+
+            if (passkey && passkey === expectedPasskey) {
+              const token = await createSessionToken(
+                { uid: 'admin_owner', role: 'owner', name: 'Korry (Owner)' },
+                secret,
+                86400 * 7
+              );
+              const cookie = formatSessionCookie(token, 86400 * 7, 'Strict');
+              return new Response(null, {
+                status: 302,
+                headers: {
+                  Location: '/admin',
+                  'Set-Cookie': cookie,
+                  'X-Robots-Tag': 'noindex, nofollow, noarchive',
+                },
+              });
+            } else {
+              return new Response(null, {
+                status: 302,
+                headers: {
+                  Location: '/admin/login?error=invalid_passkey',
+                  'X-Robots-Tag': 'noindex, nofollow, noarchive',
+                },
+              });
+            }
+          } catch (e: any) {
+            return new Response(null, {
+              status: 302,
+              headers: {
+                Location: '/admin/login?error=invalid_passkey',
+                'X-Robots-Tag': 'noindex, nofollow, noarchive',
+              },
+            });
+          }
+        }
+
+        // GET /admin/login
+        const isAuth = await isAuthorizedAdmin(request, env);
+        if (isAuth) {
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: '/admin',
+              'X-Robots-Tag': 'noindex, nofollow, noarchive',
+            },
+          });
+        }
+
+        const errorParam = url.searchParams.get('error');
+        const errorMessage = errorParam === 'invalid_passkey'
+          ? 'Invalid administrative passkey. Please verify and try again.'
+          : undefined;
+
+        return new Response(renderAdminLoginPage(errorMessage), {
+          status: errorParam ? 401 : 200,
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
+          },
+        });
+      }
+
+      if (url.pathname === '/admin/logout') {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: '/admin/login',
+            'Set-Cookie': formatSessionClearCookie(),
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
+          },
+        });
+      }
+
       if (url.pathname === '/admin' || url.pathname === '/admin/subscribers') {
+        const isAuth = await isAuthorizedAdmin(request, env);
+        if (!isAuth) {
+          return new Response(renderAdminLoginPage(), {
+            status: 401,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'X-Robots-Tag': 'noindex, nofollow, noarchive',
+            },
+          });
+        }
+
         let subscribers: any[] = [];
         if (env.DB) {
           try {
@@ -925,11 +1100,25 @@ export default {
         }
         return new Response(renderAdminPage(subscribers), {
           status: 200,
-          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
+          },
         });
       }
 
       if (url.pathname === '/admin/subscribers.csv') {
+        const isAuth = await isAuthorizedAdmin(request, env);
+        if (!isAuth) {
+          return new Response(JSON.stringify({ error: 'Unauthorized. Admin passkey required.' }), {
+            status: 401,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Robots-Tag': 'noindex, nofollow, noarchive',
+            },
+          });
+        }
+
         const rows = ['id,email,source,confirmed,created_at,ip_country,user_agent'];
         if (env.DB) {
           try {
@@ -959,6 +1148,7 @@ export default {
           headers: {
             'Content-Type': 'text/csv; charset=utf-8',
             'Content-Disposition': 'attachment; filename="beadsily-subscribers.csv"',
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
           },
         });
       }

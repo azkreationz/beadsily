@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.4] - 2026-10-06
+
+### Admin Gatekeeper Security, Passkey Protection & Search Engine Concealment
+*Enforced strict authentication barrier for /admin and subscriber exports using unique administrative passkeys, cryptographic HMAC-SHA256 session cookies (@beadsily/auth), and noindex crawl prevention.*
+
+#### Added
+- **Admin Gatekeeper Authentication Barrier (`/admin/login` & `/admin/logout`):**
+  - Gated `/admin`, `/admin/subscribers`, and `/admin/subscribers.csv` behind passkey validation.
+  - Implemented branded Admin Gatekeeper login UI with Pearl Cream canvas, Soft Black typography, Bubble Pink CTA, and error feedback.
+  - Leveraged `@beadsily/auth` to issue tamper-evident HMAC-SHA256 signed session tokens stored in `__Host-beadsily_session` cookies with `Secure`, `HttpOnly`, and `SameSite=Strict`.
+  - Added dedicated `/admin/logout` flow with cookie revocation.
+- **Search Engine Concealment & Robots Defense:**
+  - Injected `<meta name="robots" content="noindex, nofollow, noarchive" />` across all `/admin` routes.
+  - Configured edge HTTP response header `X-Robots-Tag: noindex, nofollow, noarchive` ensuring zero search engine indexing or public discovery.
+- **API & Script Authorization Support:**
+  - Added support for `Authorization: Bearer <ADMIN_PASSKEY>` and `X-Admin-Passkey` headers on administrative endpoints.
+  - Returns `401 Unauthorized` on unauthenticated direct attempts to `/admin/subscribers.csv`.
+
+---
+
 ## [1.2.3] - 2026-10-06
 
 ### Domain Aliasing, Favicon Deployment, Phrasing Refinement & Admin Command Center

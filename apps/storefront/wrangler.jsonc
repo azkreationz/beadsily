@@ -20,7 +20,11 @@
   "workers_dev": true,
   "alias": {
     "@beadsily/db": "../../packages/db/src/index.mjs",
-    "@beadsily/payments": "../../packages/payments/src/index.mjs"
+    "@beadsily/payments": "../../packages/payments/src/index.mjs",
+    "@beadsily/auth": "../../packages/auth/index.ts"
+  },
+  "vars": {
+    "ADMIN_PASSKEY": "BeadsILY-Craft-Admin-2026!"
   },
   "routes": [
     {
