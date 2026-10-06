@@ -3,3 +3,4 @@
  */
 
 export * from './inventory.mjs';
+export * from './booth.mjs';

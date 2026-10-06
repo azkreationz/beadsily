@@ -1,18 +1,20 @@
 # BeadsILY Component Inventory & BOM Modeling Specification
 
+**Document Version:** 1.1.0  
 **Date:** October 6, 2026  
-**Status:** PROPOSED  
-**Lead:** Pam (Product Operations) & Oscar (Backend Inventory)  
-**Reviewer:** Toby (Independent QA)  
-**Intake Reference:** [`templates/INVENTORY-INTAKE.csv`](file:///C:/repositories/beadsily-com-floor/templates/INVENTORY-INTAKE.csv)  
-**Matrix Requirements:** `INV-01` through `INV-09`
+**Status:** APPROVED (incorporates Toby's Independent QA Review `4133e2f`)  
+**Lead:** Pam (`pam-muwic8fg`), Product Operations Lead & Oscar (`oscar-muwid2fm`), Backend Inventory  
+**Reviewer:** Toby (`toby-muwie8nd`), Independent QA Certifier  
+**Intake Reference:** [`INVENTORY-INTAKE.csv`](file:///C:/repositories/beadsily-com-floor/worktrees/pam-muwic8fg/docs/inventory/INVENTORY-INTAKE.csv)  
+**Launch Catalog & BOM:** [`LAUNCH-CATALOG-AND-BOM-SPECIFICATION.md`](file:///C:/repositories/beadsily-com-floor/worktrees/pam-muwic8fg/docs/inventory/LAUNCH-CATALOG-AND-BOM-SPECIFICATION.md)  
+**Matrix Requirements:** `INV-01` through `INV-09`, `CAT-01`, `CAT-02`, `CAT-03`
 
 ---
 
 ## 1. Core Principles & Anti-Patterns
 
 1. **No Image-Derived Counts:** Inventory numbers are established exclusively through human physical counts and supplier invoices. Photographic groupings identify assortment variety, not saleable stock.
-2. **Component-Aware Accounting:** BeadsILY tracks inventory at the component level: bead sizes (8mm, 10mm, 12mm, 14mm), focal silicone designs, pen rods, elastic cord, clasps, keyrings, packaging, and shared assembly tools.
+2. **Component-Aware Accounting:** BeadsILY tracks inventory at the component level: bead sizes (8mm, 10mm, 12mm, 14mm, 15mm), focal silicone designs, pen rods, elastic cord, clasps, keyrings, packaging, and shared assembly tools.
 3. **No Double-Counting:** 
    - When components are assembled into prepacked kits or sealed mystery boxes, raw components are consumed and finished stock is credited.
    - Selling a finished kit consumes the finished item; it never deducts raw components a second time.
@@ -20,7 +22,7 @@
 
 ---
 
-## 2. Component Schema (D1 Migration Draft)
+## 2. Component Schema (D1 Migration Specification)
 
 ```sql
 -- Components Table (Raw Materials)
@@ -33,6 +35,7 @@ CREATE TABLE components (
   material TEXT,
   color TEXT,
   size_mm REAL,
+  hole_size_mm REAL,
   letter TEXT,
   unit_of_measure TEXT NOT NULL DEFAULT 'piece',
   cost_per_unit_cents INTEGER NOT NULL,
@@ -65,6 +68,7 @@ CREATE TABLE bill_of_materials (
   component_id TEXT NOT NULL REFERENCES components(id),
   quantity_per_guest REAL NOT NULL DEFAULT 0,
   fixed_kit_quantity INTEGER NOT NULL DEFAULT 0,
+  safety_spare_quantity INTEGER NOT NULL DEFAULT 0,
   is_substitutable INTEGER NOT NULL DEFAULT 0,
   substitute_component_id TEXT REFERENCES components(id)
 );
@@ -93,34 +97,31 @@ A standard 15-guest BeadsILY Party Kit guarantees **45 finished projects** (3 pe
 
 | Supply Item | Allocation Rule | Formula (15 Guests) | Total Quantity Needed |
 | :--- | :--- | :--- | :--- |
-| **Beadable Pen Blanks** | 1 per guest | `15 * 1` | 15 pens |
-| **Keyring Hardware & Clasps** | 1 per guest | `15 * 1` | 15 clasp sets |
-| **Elastic Stretch Cord** | 12 inches per guest | `15 * 12"` | 180 inches (15 ft) |
-| **Theme Focal Silicone Beads** | 3 per guest (1/project) | `15 * 3` | 45 focals |
-| **Accent & Spacer Beads (12mm/14mm)**| 18 per guest | `15 * 18` | 270 beads |
-| **Letter / Alphabet Beads** | Optional personalization | Pooled allowance or exact | 60 letters (pooled) |
-| **Host Tool Kit (Shared)** | Fixed per kit box | Fixed `1` | 2 scissors, 2 bead trays |
-| **Individual Guest Gift Bags** | 1 per guest | `15 * 1` | 15 organza bags |
+| **Beadable Pen Blanks** | 1 per guest | `15 * 1 + 1 spare` | 16 pens |
+| **Keyring Hardware & Clasps** | 1 per guest | `15 * 1 + 1 spare` | 16 clasp sets |
+| **Elastic Stretch Cord** | 12 inches per guest | `15 * 12" + 36" spare` | 18 strands (18 ft) |
+| **Theme Focal Silicone Beads** | 3 per guest (1/project) | `15 * 3 + 3 spares` | 48 focals |
+| **Accent & Spacer Beads (12mm/15mm)**| 16 per guest | `15 * 16 + 25 spares` | 265 beads |
+| **Crystal Rhinestone Rondelles (8mm)**| 2 per guest | `15 * 2 + 5 spares` | 35 rondelles |
+| **Letter / Alphabet Beads** | Pooled allowance | Pooled allowance | 60 letters (pooled) |
+| **Host Tool Kit (Shared)** | Fixed per kit box | Fixed `1` | 2 scissors, 2 trays, 1 tape |
+| **Individual Guest Gift Bags** | 1 per guest | `15 * 1 + 1 spare` | 16 organza bags |
 | **Host Master Guide & Cards** | 1 guide + 15 cards | Fixed | 1 master guide, 15 cards |
 
 ---
 
 ## 4. Atomic Multi-Component Reservation Algorithm (INV-01, INV-02)
 
-To prevent overselling when multiple buyers race for limited stock:
+Following Toby's QA review and Oscar's D1 schema verification, reservation atomicity is enforced directly at the SQLite engine level using a `CHECK` constraint:
 
 ```sql
--- Step 1: Execute atomic reservations for every component in the BOM
--- The WHERE clause ensures stock_on_hand - stock_reserved >= required_quantity
+-- D1 Batch Execution: env.DB.batch([stmt1, stmt2, ...])
 UPDATE components 
 SET stock_reserved = stock_reserved + :qty_needed,
     updated_at = :now
-WHERE id = :component_id 
-  AND (stock_on_hand - stock_reserved - safety_stock) >= :qty_needed;
-
--- Step 2: Verification Invariant
--- If changes() == 0 (zero rows updated), the component is short.
--- Roll back all prior component updates in this batch immediately!
+WHERE id = :component_id;
 ```
 
-This strictly enforces that either the **entire kit** is reserved, or **zero components** are locked, satisfying `INV-02` without partial stock leakage.
+**Atomicity Guarantee:**
+If any component in the kit does not have sufficient available stock (`stock_on_hand - stock_reserved - safety_stock < :qty_needed`), the update triggers `SQLITE_CONSTRAINT_CHECK`.
+Because Cloudflare D1 automatically rolls back all statements in an `env.DB.batch()` when any single statement fails, **either 100% of the kit components are successfully reserved, or 0 components are locked**. This completely eliminates partial reservations and race conditions under concurrent cart checkouts (`INV-01`, `INV-02`).
