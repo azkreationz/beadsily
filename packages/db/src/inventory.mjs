@@ -201,139 +201,18 @@ export function commitOrderPayment(db, {
   }
 }
 
-/**
- * Assembles a prepacked sealed unit for curated mystery boxes (MYS-01, MYS-02)
- * Consumes raw materials immediately, credits finished sealed unit.
- */
-export function prepackSealedMysteryUnit(db, {
-  unitId,
-  productSku,
-  lotNumber,
-  theme,
-  palette,
-  guaranteedProjects = 3,
-  rawComponentsConsumed = [], // [{ componentId, quantity }]
-  packedBy = 'pam-muwic8fg'
-}) {
-  const product = db.prepare('SELECT id FROM products WHERE sku = ?').get(productSku);
-  if (!product) {
-    throw new Error(`Mystery product not found: ${productSku}`);
-  }
+// Re-export mystery box operations from dedicated module (MYS-01..MYS-06)
+export {
+  prepackSealedMysteryUnit,
+  allocateSealedMysteryUnit,
+  commitMysteryUnitSale,
+  releaseMysteryReservation,
+  sanitizeMysteryUnitForPublicClient,
+  validateMysteryNoSubscription,
+  auditMysteryRestock,
+  getMysteryCatalog,
+  validateMysteryTierGuarantees,
+  detectMysteryTable,
+  MYSTERY_TIERS
+} from './mystery.mjs';
 
-  const now = Math.floor(Date.now() / 1000);
-
-  try {
-    db.exec('BEGIN TRANSACTION');
-
-    // Consume raw materials
-    for (const raw of rawComponentsConsumed) {
-      db.prepare(`
-        UPDATE components
-        SET stock_on_hand = stock_on_hand - ?,
-            updated_at = ?
-        WHERE id = ? AND stock_on_hand >= ?
-      `).run(raw.quantity, now, raw.componentId, raw.quantity);
-
-      db.prepare(`
-        INSERT INTO inventory_movements (id, component_id, movement_type, quantity_delta, reference_id, reference_type, actor_id, reason, created_at)
-        VALUES (?, ?, 'assembly_consume', ?, ?, 'lot', ?, 'Consumed into sealed mystery unit packout', ?)
-      `).run(`asm_${unitId}_${raw.componentId}`, raw.componentId, -raw.quantity, lotNumber, packedBy, now);
-    }
-
-    // Insert finished sealed unit
-    db.prepare(`
-      INSERT INTO mystery_sealed_units (
-        id, product_id, product_sku, lot_number, theme, palette, guaranteed_projects,
-        contents_snapshot, status, packed_by, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'assembled', ?, ?, ?)
-    `).run(
-      unitId,
-      product.id,
-      productSku,
-      lotNumber,
-      theme,
-      palette,
-      guaranteedProjects,
-      JSON.stringify(rawComponentsConsumed),
-      packedBy,
-      now,
-      now
-    );
-
-    db.exec('COMMIT');
-    return { success: true, unitId, lotNumber };
-  } catch (err) {
-    db.exec('ROLLBACK');
-    throw err;
-  }
-}
-
-/**
- * Allocates a prepacked sealed mystery unit to a checkout session (MYS-03)
- * Persistent & idempotent: same session ID receives the identical allocated unit on retries.
- */
-export function allocateSealedMysteryUnit(db, { sessionId, productSku }) {
-  // Idempotency check: if this session already holds an allocated unit, return it
-  const existing = db.prepare('SELECT * FROM mystery_sealed_units WHERE reserved_by_session_id = ?').get(sessionId);
-  if (existing) {
-    return { allocated: true, unit: existing, retried: true };
-  }
-
-  const now = Math.floor(Date.now() / 1000);
-  const expiresAt = now + 900; // 15 min lock
-
-  try {
-    db.exec('BEGIN TRANSACTION');
-
-    const available = db.prepare(`
-      SELECT id FROM mystery_sealed_units 
-      WHERE product_sku = ? AND status = 'assembled' 
-      ORDER BY created_at ASC 
-      LIMIT 1
-    `).get(productSku);
-
-    if (!available) {
-      db.exec('ROLLBACK');
-      return { allocated: false, error: 'SOLD_OUT' };
-    }
-
-    const res = db.prepare(`
-      UPDATE mystery_sealed_units 
-      SET status = 'reserved',
-          reserved_by_session_id = ?,
-          reserved_at = ?,
-          reservation_expires_at = ?,
-          updated_at = ?
-      WHERE id = ? AND status = 'assembled'
-    `).run(sessionId, now, expiresAt, now, available.id);
-
-    if (res.changes === 0) {
-      db.exec('ROLLBACK');
-      return { allocated: false, error: 'RACE_LOST' };
-    }
-
-    db.exec('COMMIT');
-    const assigned = db.prepare('SELECT * FROM mystery_sealed_units WHERE id = ?').get(available.id);
-    return { allocated: true, unit: assigned, retried: false };
-  } catch (err) {
-    db.exec('ROLLBACK');
-    throw err;
-  }
-}
-
-/**
- * Commits a mystery box purchase upon payment confirmation
- * Transitions unit from 'reserved' to 'sold'. Does NOT deduct raw components again (MYS-02).
- */
-export function commitMysteryUnitSale(db, { sessionId, orderId }) {
-  const now = Math.floor(Date.now() / 1000);
-  const res = db.prepare(`
-    UPDATE mystery_sealed_units
-    SET status = 'sold',
-        sold_in_order_id = ?,
-        updated_at = ?
-    WHERE reserved_by_session_id = ? AND status = 'reserved'
-  `).run(orderId, now, sessionId);
-
-  return { success: res.changes > 0, orderId };
-}
