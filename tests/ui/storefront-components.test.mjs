@@ -1,6 +1,6 @@
 /**
  * BeadsILY Storefront UI Primitives & WCAG 2.2 AA Contrast Test Suite
- * Requirements: BCF-8, CONTRAST-VERIFICATION.md, BRAND-ASSET-MANIFEST.md
+ * Requirements: BCF-8, BCF-11, CONTRAST-VERIFICATION.md, BRAND-ASSET-MANIFEST.md
  * Authored by: Erin (erin-muwidjtc), Storefront UX & Frontend Engineer
  */
 
@@ -17,6 +17,8 @@ import {
   getBadgeClasses,
   formatCurrency,
   calculatePartyKitProjects,
+  calculateKitPricing,
+  THEME_OPTIONS,
 } from '../../packages/ui/src/primitives.mjs';
 
 /**
@@ -248,5 +250,77 @@ describe('UI-05: Tailwind Preset Theme Integrity', () => {
     assert.strictEqual(theme.borderRadius.full, '9999px');
     assert.strictEqual(theme.borderRadius.xl, '24px');
     assert.ok(theme.boxShadow.card, 'Custom card shadow must exist');
+  });
+});
+
+describe('UI-06: 15-Guest Kit Configurator Dynamic Pricing & Theme Invariants (BCF-11)', () => {
+  test('Base 15-guest calculation: $189.00 total (18900 cents) for 45 finished keepsakes ($12.60/guest)', () => {
+    const quote = calculateKitPricing(15);
+    assert.strictEqual(quote.validGuestCount, 15);
+    assert.strictEqual(quote.extraGuests, 0);
+    assert.strictEqual(quote.basePriceCents, 18900);
+    assert.strictEqual(quote.extraGuestsPriceCents, 0);
+    assert.strictEqual(quote.totalPriceCents, 18900);
+    assert.strictEqual(quote.totalProjects, 45);
+    assert.strictEqual(quote.costPerGuestCents, 1260); // $12.60
+  });
+
+  test('Adding 1 extra guest (16 guests): $201.00 total (+$12.00, 48 projects)', () => {
+    const quote = calculateKitPricing(16);
+    assert.strictEqual(quote.validGuestCount, 16);
+    assert.strictEqual(quote.extraGuests, 1);
+    assert.strictEqual(quote.extraGuestsPriceCents, 1200);
+    assert.strictEqual(quote.totalPriceCents, 20100);
+    assert.strictEqual(quote.totalProjects, 48);
+  });
+
+  test('Adding 5 extra guests (20 guests): $249.00 total (+$60.00, 60 projects)', () => {
+    const quote = calculateKitPricing(20);
+    assert.strictEqual(quote.validGuestCount, 20);
+    assert.strictEqual(quote.extraGuests, 5);
+    assert.strictEqual(quote.extraGuestsPriceCents, 6000);
+    assert.strictEqual(quote.totalPriceCents, 24900);
+    assert.strictEqual(quote.totalProjects, 60);
+  });
+
+  test('Adding 15 extra guests (30 guests max): $369.00 total (+$180.00, 90 projects)', () => {
+    const quote = calculateKitPricing(30);
+    assert.strictEqual(quote.validGuestCount, 30);
+    assert.strictEqual(quote.extraGuests, 15);
+    assert.strictEqual(quote.extraGuestsPriceCents, 18000);
+    assert.strictEqual(quote.totalPriceCents, 36900);
+    assert.strictEqual(quote.totalProjects, 90);
+  });
+
+  test('Guest count clamping enforces minimum 15 and maximum 30 guests', () => {
+    const under = calculateKitPricing(10);
+    assert.strictEqual(under.validGuestCount, 15, 'Under-range must clamp to 15 minimum');
+
+    const over = calculateKitPricing(45);
+    assert.strictEqual(over.validGuestCount, 30, 'Over-range must clamp to 30 maximum');
+  });
+
+  test('All 4 launch themes are verified with valid palettes and hardware defaults', () => {
+    assert.strictEqual(THEME_OPTIONS.length, 4, 'Must provide exactly 4 validated launch themes');
+    const ids = THEME_OPTIONS.map((t) => t.id);
+    assert.ok(ids.includes('taylor-era'), 'Must include Taylor Era');
+    assert.ok(ids.includes('boho-bloom'), 'Must include Boho Bloom');
+    assert.ok(ids.includes('neon-glow'), 'Must include Neon Glow');
+    assert.ok(ids.includes('mermaid-cove'), 'Must include Mermaid Cove / Pastel Princess');
+
+    for (const theme of THEME_OPTIONS) {
+      assert.ok(theme.paletteColors.length >= 4, `${theme.id} must have at least 4 palette colors`);
+      assert.ok(['silver', 'rose-gold', 'gold'].includes(theme.defaultHardware));
+      assert.ok(theme.focalSummary.length > 5, `${theme.id} must have focal description`);
+    }
+  });
+});
+
+describe('UI-07: Mobile Viewport & Touch Target Invariants', () => {
+  test('All interactive steppers and buttons meet minimum 44px touch targets', () => {
+    const btnSm = getButtonClasses({ size: 'sm' });
+    const btnMd = getButtonClasses({ size: 'md' });
+    assert.ok(btnSm.includes('min-h-[44px]'));
+    assert.ok(btnMd.includes('min-h-[48px]'));
   });
 });

@@ -180,3 +180,68 @@ export function calculatePartyKitProjects(guestCount) {
     },
   };
 }
+
+/**
+ * 15-Guest Kit Themes & Specifications (BCF-11)
+ */
+export const THEME_OPTIONS = [
+  {
+    id: 'taylor-era',
+    name: "Taylor's Era Friendship",
+    tagline: 'Friendship bead bar with heart sunglasses & glitter disco beads',
+    paletteColors: ['#FF689D', '#CBC6C9', '#E6E3E5', '#FDF2F5'],
+    focalSummary: 'Heart Sunglasses + Glitter Disco Balls',
+    defaultHardware: 'silver',
+  },
+  {
+    id: 'boho-bloom',
+    name: 'Desert Bloom & Boho',
+    tagline: 'Southwestern terracotta, sage, and rising sunburst focals',
+    paletteColors: ['#B8AB90', '#706550', '#FFF8EF', '#FF97BD'],
+    focalSummary: 'Saguaro Blossoms + Rising Suns',
+    defaultHardware: 'rose-gold',
+  },
+  {
+    id: 'neon-glow',
+    name: 'Glow & Neon Retro Daisy',
+    tagline: 'Electric starbursts, daisy smileys, and high-energy neon hues',
+    paletteColors: ['#FFC107', '#FF689D', '#10B981', '#171416'],
+    focalSummary: 'Daisy Smileys + Electric Stars',
+    defaultHardware: 'silver',
+  },
+  {
+    id: 'mermaid-cove',
+    name: 'Pastel Princess & Mermaid Cove',
+    tagline: 'Princess tiaras, fairy butterflies, and shimmery gold accents',
+    paletteColors: ['#F8BCCB', '#FFC107', '#E7DECB', '#FFFFFF'],
+    focalSummary: 'Tiara Crowns + Fairy Butterflies',
+    defaultHardware: 'gold',
+  },
+];
+
+/**
+ * Calculate dynamic pricing and supply invariants for 15+ guest kits.
+ * Base 15 guests = $189.00 (18900 cents)
+ * Each additional guest = $12.00 (1200 cents)
+ */
+export function calculateKitPricing(guestCount) {
+  const baseGuests = 15;
+  const basePriceCents = 18900;
+  const pricePerExtraGuestCents = 1200;
+
+  const validGuestCount = Math.max(baseGuests, Math.min(30, guestCount));
+  const extraGuests = validGuestCount - baseGuests;
+  const extraGuestsPriceCents = extraGuests * pricePerExtraGuestCents;
+  const totalPriceCents = basePriceCents + extraGuestsPriceCents;
+  const totalProjects = validGuestCount * 3;
+
+  return {
+    validGuestCount,
+    extraGuests,
+    basePriceCents,
+    extraGuestsPriceCents,
+    totalPriceCents,
+    totalProjects,
+    costPerGuestCents: Math.round(totalPriceCents / validGuestCount),
+  };
+}
