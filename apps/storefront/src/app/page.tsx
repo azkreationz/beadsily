@@ -55,9 +55,9 @@ export default function HomePage() {
       subtitle: 'Designed for stress-free novice hosting',
       content: (
         <p>
-          None at all! Our Master Host Guide (tested under usability protocol KIT-01) provides
-          a minute-by-minute timeline, party seating tips, and emergency bead-spill prevention mats.
-          Novice parent testers successfully guided a full 15-guest group in under 90 minutes.
+          None at all! Our Master Host Guide provides a minute-by-minute timeline, party
+          seating tips, and emergency bead-spill prevention mats. Novice parent testers
+          successfully guided a full 15-guest group in under 90 minutes.
         </p>
       ),
     },

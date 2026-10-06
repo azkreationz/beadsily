@@ -157,7 +157,7 @@ export default function RootLayout({
                 Host Resources
               </h4>
               <ul className="space-y-2 text-sm text-cream-200">
-                <li><a href="/host-guide" className="hover:text-white transition-colors">Host Master Guide (KIT-01)</a></li>
+                <li><a href="/host-guide" className="hover:text-white transition-colors">Host Master Guide</a></li>
                 <li><a href="/guest-cards" className="hover:text-white transition-colors">Printable Guest Cards</a></li>
                 <li><a href="/safety" className="hover:text-white transition-colors">Age & Supervision Guidance</a></li>
                 <li><a href="/faq" className="hover:text-white transition-colors">Frequently Asked Questions</a></li>
@@ -178,8 +178,8 @@ export default function RootLayout({
           </div>
 
           <div className="mx-auto max-w-7xl pt-8 border-t border-charcoal-800 flex flex-col sm:flex-row items-center justify-between text-xs text-cream-400 gap-4">
-            <p>© 2026 BeadsILY. All rights reserved. Direct-to-Consumer Craft Commerce.</p>
-            <p>Designed with WCAG 2.2 AA accessibility standards.</p>
+            <p>© 2026 BeadsILY. All rights reserved. Tactile craft party kits & curated keepsakes.</p>
+            <p>Designed with love for crafters of all ages.</p>
           </div>
         </footer>
       </body>

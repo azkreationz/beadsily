@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2026-10-06
+
+### Customer-Centric Copy Polish & Internal Jargon Removal
+*Removed engineering ticket codes, compliance standards, and infrastructure jargon from all customer-facing storefront pages and Worker templates per owner directive.*
+
+#### Changed
+- **Storefront Copy Polish & Jargon Removal:**
+  - Removed internal engineering ticket identifiers (`MYS-01`, `MYS-02`, `KIT-01`) from all customer-facing mystery box summaries, host guide links, and FAQ answers.
+  - Replaced technical footer section "Our Invariants" with warm, customer-facing promise header "The BeadsILY Promise".
+  - Replaced internal compliance jargon ("WCAG 2.2 AA Contrast Compliance", "Server-Verified Pricing") with accessible, craft-friendly value statements ("Designed with love for crafters of all ages", "Guaranteed 45 Finished Keepsakes").
+  - Simplified checkout loading state from "Initializing Stripe Secure Session..." to friendly "Securing your checkout...".
+  - Redeployed live edge Worker (`9fec4ed3-a05e-413e-ac36-c03d024bba6d`) to [`https://beadsily-storefront.razoraz.workers.dev`](https://beadsily-storefront.razoraz.workers.dev).
+
+---
+
 ## [1.1.0] - 2026-10-06
 
 ### Cloudflare Edge Live Deployment & Production Infrastructure

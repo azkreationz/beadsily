@@ -140,7 +140,7 @@ export default function CheckoutPage() {
                   disabled={loading}
                   className="w-full justify-center min-h-[48px]"
                 >
-                  {loading ? 'Initializing Stripe Secure Session...' : 'Continue to Payment Details'}
+                  {loading ? 'Securing your checkout...' : 'Continue to Payment Details'}
                 </Button>
               </form>
             ) : (

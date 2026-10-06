@@ -1,6 +1,6 @@
 {
   "name": "@beadsily/payments",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "BeadsILY Stripe embedded checkout, webhook signature verification, and subscription reconciliation",
   "type": "module",
   "main": "./src/index.mjs",

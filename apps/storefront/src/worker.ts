@@ -135,12 +135,12 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
         </ul>
       </div>
       <div>
-        <h4 class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-3">Our Invariants</h4>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-3">The BeadsILY Promise</h4>
         <ul class="text-xs space-y-2 text-neutral-400">
           <li>✓ 15 Guests / 45 Keepsakes Guaranteed</li>
-          <li>✓ Generous Hardware & Bead Spares Buffer</li>
-          <li>✓ Prepacked Sealed Units (Zero Lottery)</li>
-          <li>✓ WCAG 2.2 AA Contrast Compliance</li>
+          <li>✓ Generous Hardware & Extra Spares Included</li>
+          <li>✓ Honest Sealed Boxes (No Subscription Traps)</li>
+          <li>✓ Designed with Love for Crafters of All Ages</li>
         </ul>
       </div>
       <div>
@@ -148,7 +148,7 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
         <p class="text-xs text-neutral-300 leading-relaxed">
           Join us at Santa Fe Elementary Fall Festival!<br/>
           Friday, Oct 23, 2026 • 5–8 p.m.<br/>
-          In-Person Stripe Card Reader & Tap-to-Pay Ready.
+          Card & Mobile Tap-to-Pay Accepted on Site.
         </p>
       </div>
     </div>
@@ -227,7 +227,7 @@ function renderHomePage(): string {
         </div>
         <div class="bg-white rounded-2xl p-6 border border-cream-200 shadow-sm space-y-2">
           <h3 class="font-bold text-base text-charcoal-950">Do I need prior crafting experience to host?</h3>
-          <p class="text-sm text-neutral-600 leading-relaxed">None! Our Master Host Guide (verified under KIT-01 usability testing) provides a minute-by-minute timeline, step-by-step guest cards, and extra hardware spares so every guest finishes successfully without stress.</p>
+          <p class="text-sm text-neutral-600 leading-relaxed">None! Our Master Host Guide provides a minute-by-minute party timeline, step-by-step guest cards, and extra hardware spares so every guest finishes successfully without stress.</p>
         </div>
       </div>
     </section>
@@ -339,8 +339,8 @@ function renderMysteryBoxesPage(): string {
               Guaranteed 3 completed keepsake projects: 1 beadable metallic pen, 1 swivel carabiner charm, and 1 elastic stretch bracelet. Includes secret focal theme and accent palette!
             </p>
             <ul class="text-xs space-y-2 text-neutral-700 bg-cream-100 p-4 rounded-xl border border-cream-200">
-              <li>✓ Guaranteed 3 Finished Keepsakes (MYS-01)</li>
-              <li>✓ Prepacked Sealed Unit Allocation (MYS-02)</li>
+              <li>✓ Guaranteed 3 Finished Keepsakes</li>
+              <li>✓ 100% Complete Hardware & Focal Charms</li>
               <li>✓ One-time purchase (No recurring subscription)</li>
             </ul>
           </div>
@@ -363,8 +363,8 @@ function renderMysteryBoxesPage(): string {
               Guaranteed 6 completed keepsake projects: 2 beadable pens, 2 swivel carabiner charms, and 2 elastic stretch bracelets. Perfect for best friends crafting together!
             </p>
             <ul class="text-xs space-y-2 text-neutral-700 bg-cream-100 p-4 rounded-xl border border-cream-200">
-              <li>✓ Guaranteed 6 Finished Keepsakes (MYS-01)</li>
-              <li>✓ Matching & Complementary Secret Themes</li>
+              <li>✓ Guaranteed 6 Finished Keepsakes (3 per Crafter)</li>
+              <li>✓ Coordinated Matching & Complementary Secret Themes</li>
               <li>✓ One-time purchase (No recurring subscription)</li>
             </ul>
           </div>
@@ -386,7 +386,7 @@ function renderCheckoutPage(url: URL): string {
     <section class="max-w-3xl mx-auto px-4 py-12 space-y-8">
       <div class="text-center space-y-2">
         <h1 class="text-3xl font-black text-charcoal-950">BeadsILY Secure Checkout</h1>
-        <p class="text-xs text-neutral-500">Item: ${sku} • Configured for ${guests} guests • Server-Verified Pricing</p>
+        <p class="text-xs text-neutral-500">15-Guest Party Kit • 45 Finished Keepsakes Guaranteed</p>
       </div>
 
       <div class="bg-white rounded-3xl p-8 border border-cream-200 shadow-sm space-y-6">
@@ -445,7 +445,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.1.0',
+          version: '1.1.1',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
