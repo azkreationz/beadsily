@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4210 115 200 200" width="100%" height="100%">
+  <title>BeadsILY Heart Icon</title>
+  <desc>BeadsILY Official Heart Icon with specular highlight</desc>
+  <g id="heart-icon">
+    <!-- Heart Base Fill and Stroke -->
+    <path d="M 4308.352 302.398 C 4288.191 288.000, 4224.832 247.680, 4224.832 198.719 C 4224.832 144.000, 4282.430 129.602, 4308.352 175.680 C 4334.270 129.602, 4391.871 144.000, 4391.871 198.719 C 4391.871 247.680, 4328.512 288.000, 4308.352 302.398 Z" fill="#FF689D" stroke="#D93D75" stroke-width="6" stroke-linejoin="round"/>
+    <!-- Specular Highlight Arc -->
+    <path d="M 4242.109 201.602 C 4242.109 161.281, 4279.551 149.762, 4296.832 181.441" fill="none" stroke="#FFFFFF" stroke-width="10.656" stroke-linecap="round"/>
+    <!-- Inner Accent Contour Arc -->
+    <path d="M 4256.512 250.559 C 4273.793 270.719, 4293.953 285.121, 4308.352 293.762 C 4331.391 279.359, 4360.191 259.199, 4374.590 239.039" fill="none" stroke="#D93D75" stroke-width="6.912" stroke-linecap="round"/>
+  </g>
+</svg>
