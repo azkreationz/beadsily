@@ -1,0 +1,21 @@
+{
+  "name": "@beadsily/payments",
+  "version": "0.1.0",
+  "description": "BeadsILY Stripe embedded checkout, webhook signature verification, and subscription reconciliation",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.mjs",
+      "default": "./src/index.mjs"
+    }
+  },
+  "dependencies": {
+    "@beadsily/db": "workspace:*"
+  },
+  "author": "Angela (angela-muwif3s4) <angela@beadsily.com>",
+  "license": "UNLICENSED",
+  "private": true
+}
