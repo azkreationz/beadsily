@@ -141,24 +141,27 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
 </head>
 <body class="${isTeaser ? 'bg-charcoal-950 text-cream-100' : 'bg-cream-100 text-charcoal-950'} font-sans antialiased min-h-screen flex flex-col">
   <!-- Top Announcement Bar -->
-  <aside aria-label="Announcement" class="bg-charcoal-950 text-cream-100 text-xs py-2 px-4 text-center font-medium border-b border-white/10">
-    ✨ Soft Launch Event: Santa Fe Elementary Fall Festival (Friday, Oct 23, 2026, 5–8 PM Arizona MST) • Pre-order Party Kits Below
+  <aside aria-label="Announcement" class="bg-charcoal-950 text-cream-100 text-xs py-2 px-4 text-center font-medium border-b border-white/10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+    <span>✨ Soft Launch Event: Santa Fe Elementary Fall Festival (Friday, Oct 23, 2026, 5–8 PM MST)</span>
+    <a href="/events/beadsily-launch.ics" download="beadsily-fall-festival.ics" class="text-pink-300 hover:text-white font-bold inline-flex items-center gap-1 underline underline-offset-2">
+      <span>📅 Add to Calendar</span>
+    </a>
   </aside>
 
   <!-- Navigation Header -->
   <header class="border-b border-cream-200/80 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-xs">
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3 group">
-        <img src="/brand/beadsily-wordmark-color.svg" alt="BEADSILY" class="h-6 md:h-7 w-auto transition-transform group-hover:scale-[1.02]" />
-        <span class="font-display tracking-widest uppercase text-[11px] font-semibold text-charcoal-950 bg-pink-50 border-pink-500/20 px-2.5 py-0.5 rounded-full border shadow-2xs">Bead Bar</span>
+    <div class="max-w-6xl mx-auto px-4 py-2.5 sm:py-3.5 flex items-center justify-between gap-2">
+      <a href="/" class="flex items-center gap-2 sm:gap-3 group shrink-0">
+        <img src="/brand/beadsily-wordmark-color.svg" alt="BEADSILY" class="h-6 sm:h-7 w-auto transition-transform group-hover:scale-[1.02]" />
+        <span class="font-display tracking-widest uppercase text-[10px] sm:text-[11px] font-semibold text-charcoal-950 bg-pink-50 border-pink-500/20 px-2 sm:px-2.5 py-0.5 rounded-full border shadow-2xs">Bead Bar</span>
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-charcoal-900">
         <a href="/party-kits" class="hover:text-pink-600 transition-colors ${currentPath === '/party-kits' ? 'text-pink-600 font-bold' : ''}">15-Guest Party Kits</a>
         <a href="/mystery-boxes" class="hover:text-pink-600 transition-colors ${currentPath === '/mystery-boxes' ? 'text-pink-600 font-bold' : ''}">Curated Mystery Boxes</a>
         <a href="/party-kits#faq" class="hover:text-pink-600 transition-colors">Host Guide & FAQ</a>
       </nav>
-      <div class="flex items-center gap-3">
-        <a href="/#subscribe" class="btn-primary inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm transition-transform active:scale-95 shadow-sm">
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="/#subscribe" class="btn-primary inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-transform active:scale-95 shadow-sm whitespace-nowrap min-h-[40px]">
           Join VIP List
         </a>
       </div>
@@ -238,10 +241,34 @@ function renderTeaserPage(url: URL): string {
           </p>
         </div>
 
-        <!-- Soft Launch Event Pill -->
-        <div class="inline-flex flex-col sm:flex-row items-center gap-2 bg-charcoal-950/80 border border-pink-500/30 rounded-2xl px-6 py-3 text-xs sm:text-sm text-cream-100 shadow-xl backdrop-blur-md">
-          <span class="text-amber-400 font-bold">✨ Soft Launch Event:</span>
-          <span>Santa Fe Elementary Fall Festival • Friday, Oct 23, 2026 (5–8 PM MST)</span>
+        <!-- Soft Launch Event Card & Save the Date -->
+        <div class="bg-charcoal-950/80 border border-pink-500/30 rounded-3xl p-5 sm:p-6 max-w-xl mx-auto shadow-2xl backdrop-blur-md space-y-4">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div class="space-y-1">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400">
+                <span>✨ Soft Launch Event</span>
+              </span>
+              <h3 class="text-base sm:text-lg font-bold text-white">Santa Fe Elementary Fall Festival</h3>
+              <p class="text-xs text-neutral-300">Friday, Oct 23, 2026 • 5:00 PM – 8:00 PM MST</p>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+              <a 
+                href="/events/beadsily-launch.ics" 
+                download="beadsily-fall-festival.ics"
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs font-bold transition-all active:scale-95 shadow-sm min-h-[44px]"
+              >
+                <span>📅 Save Date (.ics)</span>
+              </a>
+              <a 
+                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=BeadsILY+Bead+Bar+Soft+Launch+at+Santa+Fe+Fall+Festival&dates=20261024T000000Z/20261024T030000Z&details=Join+BeadsILY+at+the+Santa+Fe+Elementary+Fall+Festival!+Craft+keepsake+pens,+carabiner+charms,+and+stretch+bracelets.+Card+and+mobile+tap-to-pay+accepted+on+site.&location=Santa+Fe+Elementary+School,+AZ" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-charcoal-950 text-xs font-bold transition-all active:scale-95 shadow-sm min-h-[44px]"
+              >
+                <span>Google Cal ↗</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- Email Subscription Box -->
@@ -264,11 +291,11 @@ function renderTeaserPage(url: URL): string {
                 name="email" 
                 required 
                 placeholder="Enter your email address..." 
-                class="px-5 py-3.5 rounded-2xl border border-white/20 bg-white/95 text-charcoal-950 placeholder-neutral-500 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 flex-grow shadow-lg"
+                class="w-full sm:flex-grow px-5 py-3.5 rounded-2xl border border-white/20 bg-white/95 text-charcoal-950 placeholder-neutral-500 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-lg min-h-[48px]" 
               />
               <button 
                 type="submit" 
-                class="btn-primary px-7 py-3.5 rounded-2xl text-sm font-bold shadow-lg transition-transform active:scale-95 whitespace-nowrap"
+                class="btn-primary w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-bold shadow-lg transition-transform active:scale-95 inline-flex items-center justify-center text-center min-h-[48px]"
               >
                 Subscribe for Updates
               </button>
@@ -385,76 +412,345 @@ function renderHomePage(): string {
 
 function renderPartyKitsPage(): string {
   const content = `
-    <section class="max-w-5xl mx-auto px-4 py-12 space-y-10">
+    <section class="max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-8 sm:space-y-10">
       <div class="text-center space-y-3">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-pink-50 text-charcoal-950 border border-pink-500/20">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-pink-50 text-charcoal-950 border border-pink-500/20">
           Interactive Party Kit Configurator
         </div>
-        <h1 class="text-3xl md:text-5xl font-black text-charcoal-950 tracking-tight">Configure Your 15-Guest Kit</h1>
-        <p class="text-sm md:text-base text-neutral-600 max-w-xl mx-auto">
-          Starts at $189.00 for 15 guests. Easily scale up your guest count with extra hardware and beads included.
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-charcoal-950 tracking-tight">Configure Your Party Kit</h1>
+        <p class="text-sm sm:text-base text-neutral-600 max-w-xl mx-auto">
+          Starts at $189.00 for 15 guests (45 durable keepsakes). Choose your signature theme and add extra guests in quantities of 5.
         </p>
       </div>
 
       <!-- Configurator Card -->
-      <div class="bg-white rounded-3xl p-8 md:p-12 border border-cream-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div class="space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border border-cream-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Theme Selection -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">1. Select Party Theme</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button class="p-4 rounded-xl border-2 border-pink-500 bg-pink-50 text-left font-bold text-xs text-charcoal-950">
-                ✨ Taylor's Era<br/><span class="font-normal text-neutral-500">Lavender & shimmer beads</span>
+            <div class="flex items-center justify-between mb-2.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-neutral-500">1. Select Party Theme</label>
+              <span id="theme-selected-label" class="text-xs font-semibold text-pink-600">Taylor's Era Friendship</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="theme-grid">
+              <button 
+                type="button" 
+                onclick="selectTheme('PK-15-TAY')" 
+                id="theme-btn-PK-15-TAY"
+                data-sku="PK-15-TAY"
+                data-name="Taylor's Era Friendship"
+                class="theme-btn p-4 rounded-2xl border-2 border-pink-500 bg-pink-50 text-left font-bold text-xs text-charcoal-950 transition-all cursor-pointer relative min-h-[56px] shadow-xs active:scale-[0.98]"
+              >
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-sm font-black text-charcoal-950">✨ Taylor's Era</span>
+                  <span class="theme-check text-pink-600 font-bold text-sm">✓</span>
+                </div>
+                <p class="font-normal text-neutral-600 mt-1 text-[11px] leading-relaxed">Lavender, heart sunglasses & glitter disco beads</p>
               </button>
-              <button class="p-4 rounded-xl border border-cream-200 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300">
-                🌵 Desert Bloom<br/><span class="font-normal text-neutral-500">Terracotta, sage & gold</span>
+
+              <button 
+                type="button" 
+                onclick="selectTheme('PK-15-BOHO')" 
+                id="theme-btn-PK-15-BOHO"
+                data-sku="PK-15-BOHO"
+                data-name="Desert Bloom & Boho"
+                class="theme-btn p-4 rounded-2xl border border-cream-300 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300 transition-all cursor-pointer relative min-h-[56px] active:scale-[0.98]"
+              >
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-sm font-black text-charcoal-950">🌵 Desert Bloom</span>
+                  <span class="theme-check text-pink-600 font-bold text-sm hidden">✓</span>
+                </div>
+                <p class="font-normal text-neutral-600 mt-1 text-[11px] leading-relaxed">Terracotta, sage, sunburst focals & rose gold</p>
               </button>
-              <button class="p-4 rounded-xl border border-cream-200 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300">
-                🌼 Glow Neon Daisy<br/><span class="font-normal text-neutral-500">UV reactive brights</span>
+
+              <button 
+                type="button" 
+                onclick="selectTheme('PK-15-NEON')" 
+                id="theme-btn-PK-15-NEON"
+                data-sku="PK-15-NEON"
+                data-name="Glow & Neon Retro Daisy"
+                class="theme-btn p-4 rounded-2xl border border-cream-300 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300 transition-all cursor-pointer relative min-h-[56px] active:scale-[0.98]"
+              >
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-sm font-black text-charcoal-950">🌼 Glow Neon Daisy</span>
+                  <span class="theme-check text-pink-600 font-bold text-sm hidden">✓</span>
+                </div>
+                <p class="font-normal text-neutral-600 mt-1 text-[11px] leading-relaxed">UV-reactive electric brights & daisy smileys</p>
               </button>
-              <button class="p-4 rounded-xl border border-cream-200 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300">
-                🧜‍♀️ Mermaid Cove<br/><span class="font-normal text-neutral-500">Pearlescent seafoam & lilac</span>
+
+              <button 
+                type="button" 
+                onclick="selectTheme('PK-15-PRN')" 
+                id="theme-btn-PK-15-PRN"
+                data-sku="PK-15-PRN"
+                data-name="Pastel Princess & Mermaid Cove"
+                class="theme-btn p-4 rounded-2xl border border-cream-300 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300 transition-all cursor-pointer relative min-h-[56px] active:scale-[0.98]"
+              >
+                <div class="flex items-start justify-between gap-1">
+                  <span class="text-sm font-black text-charcoal-950">🧜‍♀️ Mermaid Cove</span>
+                  <span class="theme-check text-pink-600 font-bold text-sm hidden">✓</span>
+                </div>
+                <p class="font-normal text-neutral-600 mt-1 text-[11px] leading-relaxed">Pastel seafoam, tiara crowns & fairy butterflies</p>
               </button>
             </div>
           </div>
 
+          <!-- Guest Count Selection (Quantities of 5 extra) -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">2. Guest Count (Min 15, Max 30)</label>
-            <div class="flex items-center gap-4 bg-cream-100 p-2 rounded-2xl border border-cream-200 w-fit">
-              <span class="px-4 text-base font-bold text-charcoal-950">15 Guests (Base Guarantee)</span>
+            <div class="flex items-center justify-between mb-2.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-neutral-500">2. Select Guest Count</label>
+              <span class="text-xs text-neutral-500 font-medium">3 keepsakes per guest guaranteed</span>
             </div>
-            <p class="text-xs text-neutral-400 mt-1">Additional guests: +$12.00 per guest (+3 keepsakes per guest).</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="guests-grid">
+              <button 
+                type="button"
+                onclick="selectGuests(15)"
+                id="guest-btn-15"
+                data-guests="15"
+                class="guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-charcoal-950 bg-charcoal-950 text-white font-bold transition-all cursor-pointer min-h-[56px] active:scale-95 shadow-sm"
+              >
+                <span class="text-base font-black">15 Guests</span>
+                <span class="text-[10px] text-cream-200 font-medium">Base • 45 Keepsakes</span>
+              </button>
+
+              <button 
+                type="button"
+                onclick="selectGuests(20)"
+                id="guest-btn-20"
+                data-guests="20"
+                class="guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-cream-300 bg-cream-100 text-charcoal-950 font-bold hover:border-charcoal-950 transition-all cursor-pointer min-h-[56px] active:scale-95"
+              >
+                <span class="text-base font-black">20 Guests</span>
+                <span class="text-[10px] text-neutral-500 font-medium">+5 • 60 Keepsakes</span>
+              </button>
+
+              <button 
+                type="button"
+                onclick="selectGuests(25)"
+                id="guest-btn-25"
+                data-guests="25"
+                class="guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-cream-300 bg-cream-100 text-charcoal-950 font-bold hover:border-charcoal-950 transition-all cursor-pointer min-h-[56px] active:scale-95"
+              >
+                <span class="text-base font-black">25 Guests</span>
+                <span class="text-[10px] text-neutral-500 font-medium">+10 • 75 Keepsakes</span>
+              </button>
+
+              <button 
+                type="button"
+                onclick="selectGuests(30)"
+                id="guest-btn-30"
+                data-guests="30"
+                class="guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-cream-300 bg-cream-100 text-charcoal-950 font-bold hover:border-charcoal-950 transition-all cursor-pointer min-h-[56px] active:scale-95"
+              >
+                <span class="text-base font-black">30 Guests</span>
+                <span class="text-[10px] text-neutral-500 font-medium">+15 • 90 Keepsakes</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-2">
+              💡 Extra guests are just +$12.00 each ($60 per 5 guests). Each extra guest receives hardware and beads for 1 beadable pen, 1 swivel keychain, and 1 elastic stretch bracelet.
+            </p>
           </div>
+
+          <!-- What's Inside Box -->
+          <div class="bg-cream-100 rounded-2xl p-4 sm:p-5 border border-cream-200 space-y-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-charcoal-950">📦 Every Party Kit Includes:</h4>
+            <ul class="text-xs space-y-1.5 text-neutral-700">
+              <li class="flex items-center gap-2"><span>✓</span> <strong id="summary-keepsakes-detail">45 Total Keepsakes: 15 Metallic Pens, 15 Swivel Keychains, 15 Stretch Bracelets</strong></li>
+              <li class="flex items-center gap-2"><span>✓</span> <strong>Free Spares Buffer:</strong> Extra pens, clasps, elastic cord, and beads so nobody stresses accidents</li>
+              <li class="flex items-center gap-2"><span>✓</span> <strong>Master Host Guide:</strong> Minute-by-minute party timeline and step-by-step guest instruction cards</li>
+              <li class="flex items-center gap-2"><span>✓</span> <strong>Bead Sorting Trays:</strong> 2 durable bead bar organization trays included free</li>
+            </ul>
+          </div>
+
         </div>
 
-        <div class="bg-cream-100 rounded-2xl p-8 border border-cream-200 space-y-6">
-          <div class="space-y-2 border-b border-cream-200 pb-6">
-            <h3 class="font-black text-xl text-charcoal-950">Order Summary</h3>
-            <div class="flex justify-between text-sm text-neutral-600">
-              <span>Base 15-Guest Kit (45 Projects)</span>
-              <span class="font-bold text-charcoal-950">$189.00</span>
+        <!-- Order Summary Panel -->
+        <div class="lg:col-span-5 bg-cream-100 rounded-3xl p-6 sm:p-8 border border-cream-200 space-y-6">
+          <div class="space-y-3 border-b border-cream-200 pb-5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-black text-xl text-charcoal-950">Order Summary</h3>
+              <span id="summary-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-pink-100 text-charcoal-950 border border-pink-300">15 Guests</span>
             </div>
-            <div class="flex justify-between text-xs text-neutral-500">
-              <span>Hardware & Bead Spares Buffer</span>
-              <span class="font-semibold text-emerald-700">Included Free</span>
-            </div>
-            <div class="flex justify-between text-xs text-neutral-500">
-              <span>Master Host Guide & Trays</span>
-              <span class="font-semibold text-emerald-700">Included Free</span>
+
+            <div class="space-y-2 text-sm text-neutral-700">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="font-bold text-charcoal-950 block" id="summary-theme-title">Taylor's Era Friendship</span>
+                  <span class="text-xs text-neutral-500">Base 15-Guest Kit (45 Projects)</span>
+                </div>
+                <span class="font-bold text-charcoal-950">$189.00</span>
+              </div>
+
+              <div id="summary-extra-row" class="flex justify-between items-start hidden">
+                <div>
+                  <span class="font-medium text-charcoal-900 block" id="summary-extra-label">+5 Extra Guests (15 Projects)</span>
+                  <span class="text-xs text-neutral-500">$12.00 / guest</span>
+                </div>
+                <span class="font-bold text-charcoal-950" id="summary-extra-price">+$60.00</span>
+              </div>
+
+              <div class="flex justify-between text-xs text-neutral-600">
+                <span>Hardware & Bead Spares Buffer</span>
+                <span class="font-semibold text-emerald-700">Included Free</span>
+              </div>
+
+              <div class="flex justify-between text-xs text-neutral-600">
+                <span>Master Host Guide & Trays</span>
+                <span class="font-semibold text-emerald-700">Included Free</span>
+              </div>
+
+              <div class="flex justify-between text-xs text-neutral-600">
+                <span>Standard Shipping (US)</span>
+                <span class="font-semibold text-emerald-700">Free</span>
+              </div>
             </div>
           </div>
 
-          <div class="flex justify-between items-baseline">
-            <span class="text-sm font-bold text-neutral-700">Total Price:</span>
-            <span class="text-3xl font-black text-charcoal-950">$189.00</span>
+          <div class="space-y-1">
+            <div class="flex justify-between items-baseline">
+              <span class="text-sm font-bold text-neutral-700">Total Price:</span>
+              <span class="text-3xl font-black text-charcoal-950" id="summary-total-price">$189.00</span>
+            </div>
+            <p class="text-xs text-neutral-500 text-right" id="summary-per-guest">
+              $12.60 per guest • 3 Keepsakes each
+            </p>
           </div>
 
-          <a href="/checkout?sku=PK-15-TAY&guests=15" class="btn-primary w-full inline-flex items-center justify-center py-4 rounded-xl text-base shadow-md active:scale-95 transition-transform">
-            Proceed to Secure Checkout
-          </a>
-          <p class="text-[11px] text-center text-neutral-500">Stripe Embedded Checkout • Free Standard Shipping</p>
+          <div class="space-y-2.5">
+            <a 
+              href="/checkout?sku=PK-15-TAY&guests=15" 
+              id="checkout-cta-btn" 
+              class="btn-primary w-full py-4 rounded-2xl text-base font-bold shadow-md active:scale-95 transition-all inline-flex items-center justify-center text-center min-h-[48px]"
+            >
+              <span id="checkout-cta-text">Proceed to Checkout ($189.00)</span>
+              <span class="ml-2">→</span>
+            </a>
+            <p class="text-[11px] text-center text-neutral-500">
+              🔒 Secure Stripe Checkout • 100% Satisfaction Guarantee
+            </p>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Interactive Client Script -->
+    <script>
+      (function() {
+        var THEMES = {
+          'PK-15-TAY': { name: "Taylor's Era Friendship" },
+          'PK-15-BOHO': { name: "Desert Bloom & Boho" },
+          'PK-15-NEON': { name: "Glow & Neon Retro Daisy" },
+          'PK-15-PRN': { name: "Pastel Princess & Mermaid Cove" }
+        };
+        var currentSku = 'PK-15-TAY';
+        var currentGuests = 15;
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var paramSku = urlParams.get('sku');
+        if (paramSku && THEMES[paramSku]) {
+          currentSku = paramSku;
+        }
+        var paramGuests = parseInt(urlParams.get('guests'), 10);
+        if ([15, 20, 25, 30].indexOf(paramGuests) !== -1) {
+          currentGuests = paramGuests;
+        }
+
+        window.selectTheme = function(sku) {
+          if (!THEMES[sku]) return;
+          currentSku = sku;
+          updateUI();
+        };
+
+        window.selectGuests = function(count) {
+          count = parseInt(count, 10);
+          if ([15, 20, 25, 30].indexOf(count) === -1) count = 15;
+          currentGuests = count;
+          updateUI();
+        };
+
+        function updateUI() {
+          var themeBtns = document.querySelectorAll('.theme-btn');
+          themeBtns.forEach(function(btn) {
+            var sku = btn.getAttribute('data-sku');
+            var check = btn.querySelector('.theme-check');
+            if (sku === currentSku) {
+              btn.className = 'theme-btn p-4 rounded-2xl border-2 border-pink-500 bg-pink-50 text-left font-bold text-xs text-charcoal-950 transition-all cursor-pointer relative min-h-[56px] shadow-xs active:scale-[0.98]';
+              if (check) check.classList.remove('hidden');
+            } else {
+              btn.className = 'theme-btn p-4 rounded-2xl border border-cream-300 bg-cream-100 text-left font-bold text-xs text-charcoal-950 hover:border-pink-300 transition-all cursor-pointer relative min-h-[56px] active:scale-[0.98]';
+              if (check) check.classList.add('hidden');
+            }
+          });
+
+          var guestBtns = document.querySelectorAll('.guest-btn');
+          guestBtns.forEach(function(btn) {
+            var g = parseInt(btn.getAttribute('data-guests'), 10);
+            if (g === currentGuests) {
+              btn.className = 'guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-charcoal-950 bg-charcoal-950 text-white font-bold transition-all cursor-pointer min-h-[56px] active:scale-95 shadow-sm';
+              var sub = btn.querySelector('span:last-child');
+              if (sub) sub.className = 'text-[10px] text-cream-200 font-medium';
+            } else {
+              btn.className = 'guest-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-cream-300 bg-cream-100 text-charcoal-950 font-bold hover:border-charcoal-950 transition-all cursor-pointer min-h-[56px] active:scale-95';
+              var sub = btn.querySelector('span:last-child');
+              if (sub) sub.className = 'text-[10px] text-neutral-500 font-medium';
+            }
+          });
+
+          var baseGuests = 15;
+          var basePrice = 189;
+          var extraGuests = currentGuests - baseGuests;
+          var extraPrice = extraGuests * 12;
+          var totalPrice = basePrice + extraPrice;
+          var totalProjects = currentGuests * 3;
+          var perGuest = (totalPrice / currentGuests).toFixed(2);
+
+          var themeLabel = document.getElementById('theme-selected-label');
+          if (themeLabel) themeLabel.textContent = THEMES[currentSku].name;
+
+          var summaryThemeTitle = document.getElementById('summary-theme-title');
+          if (summaryThemeTitle) summaryThemeTitle.textContent = THEMES[currentSku].name;
+
+          var summaryBadge = document.getElementById('summary-badge');
+          if (summaryBadge) summaryBadge.textContent = currentGuests + ' Guests (' + totalProjects + ' Keepsakes)';
+
+          var extraRow = document.getElementById('summary-extra-row');
+          var extraLabel = document.getElementById('summary-extra-label');
+          var extraPriceEl = document.getElementById('summary-extra-price');
+          if (extraRow && extraLabel && extraPriceEl) {
+            if (extraGuests > 0) {
+              extraRow.classList.remove('hidden');
+              extraLabel.textContent = '+' + extraGuests + ' Extra Guests (' + (extraGuests * 3) + ' Keepsakes)';
+              extraPriceEl.textContent = '+$' + extraPrice + '.00';
+            } else {
+              extraRow.classList.add('hidden');
+            }
+          }
+
+          var keepsakesDetail = document.getElementById('summary-keepsakes-detail');
+          if (keepsakesDetail) {
+            keepsakesDetail.textContent = totalProjects + ' Total Keepsakes: ' + currentGuests + ' Metallic Pens, ' + currentGuests + ' Swivel Keychains, ' + currentGuests + ' Stretch Bracelets';
+          }
+
+          var totalPriceEl = document.getElementById('summary-total-price');
+          if (totalPriceEl) totalPriceEl.textContent = '$' + totalPrice + '.00';
+
+          var perGuestEl = document.getElementById('summary-per-guest');
+          if (perGuestEl) perGuestEl.textContent = '$' + perGuest + ' per guest • 3 Keepsakes each';
+
+          var ctaBtn = document.getElementById('checkout-cta-btn');
+          var ctaText = document.getElementById('checkout-cta-text');
+          if (ctaBtn) {
+            ctaBtn.href = '/checkout?sku=' + encodeURIComponent(currentSku) + '&guests=' + currentGuests;
+          }
+          if (ctaText) {
+            ctaText.textContent = 'Proceed to Checkout ($' + totalPrice + '.00)';
+          }
+        }
+
+        updateUI();
+      })();
+    </script>
   `;
   return getHtmlLayout('15-Guest Party Kit Configurator', content, '/party-kits');
 }
@@ -492,7 +788,7 @@ function renderMysteryBoxesPage(): string {
               <li>✓ One-time purchase (No recurring subscription)</li>
             </ul>
           </div>
-          <a href="/checkout?sku=MYS-MKR-01" class="btn-primary w-full inline-flex items-center justify-center py-3 rounded-xl text-sm shadow-sm active:scale-95 transition-transform">
+          <a href="/checkout?sku=MYS-MKR-01" class="btn-primary w-full inline-flex items-center justify-center py-3.5 rounded-2xl text-sm font-bold shadow-sm active:scale-95 transition-transform min-h-[48px]">
             Order Mystery Maker ($28)
           </a>
         </div>
@@ -516,7 +812,7 @@ function renderMysteryBoxesPage(): string {
               <li>✓ One-time purchase (No recurring subscription)</li>
             </ul>
           </div>
-          <a href="/checkout?sku=MYS-DUO-01" class="btn-primary w-full inline-flex items-center justify-center py-3 rounded-xl text-sm shadow-sm active:scale-95 transition-transform">
+          <a href="/checkout?sku=MYS-DUO-01" class="btn-primary w-full inline-flex items-center justify-center py-3.5 rounded-2xl text-sm font-bold shadow-sm active:scale-95 transition-transform min-h-[48px]">
             Order Bestie Duo ($48)
           </a>
         </div>
@@ -528,40 +824,114 @@ function renderMysteryBoxesPage(): string {
 
 function renderCheckoutPage(url: URL): string {
   const sku = url.searchParams.get('sku') || 'PK-15-TAY';
-  const guests = url.searchParams.get('guests') || '15';
+  const guestsRaw = parseInt(url.searchParams.get('guests') || '15', 10);
+  const guests = isNaN(guestsRaw) ? 15 : Math.max(15, Math.min(30, guestsRaw));
+
+  let productName = "Taylor's Era Friendship Bead Bar Kit";
+  let themeDescription = "Lavender, heart sunglasses & glitter disco beads";
+  let isMystery = false;
+  let totalPrice = 189;
+  let totalProjects = 45;
+
+  if (sku === 'PK-15-BOHO' || sku === 'PK-15-DES') {
+    productName = 'Desert Bloom & Boho Party Kit';
+    themeDescription = 'Terracotta, sage, sunburst focals & rose gold';
+  } else if (sku === 'PK-15-NEON' || sku === 'PK-15-GLO') {
+    productName = 'Glow & Neon Retro Daisy Party Kit';
+    themeDescription = 'UV-reactive electric brights & daisy smileys';
+  } else if (sku === 'PK-15-PRN' || sku === 'PK-15-MER') {
+    productName = 'Pastel Princess & Mermaid Cove Party Kit';
+    themeDescription = 'Pastel seafoam, tiara crowns & fairy butterflies';
+  } else if (sku === 'MYS-MKR-01') {
+    productName = 'Mystery Maker Craft Box';
+    themeDescription = 'Curated solo physical craft box (3 projects)';
+    totalPrice = 28;
+    totalProjects = 3;
+    isMystery = true;
+  } else if (sku === 'MYS-DUO-01') {
+    productName = 'Bestie Mystery Duo Craft Box';
+    themeDescription = 'Curated duo physical craft box (6 projects)';
+    totalPrice = 48;
+    totalProjects = 6;
+    isMystery = true;
+  }
+
+  if (!isMystery) {
+    const extraGuests = Math.max(0, guests - 15);
+    totalPrice = 189 + extraGuests * 12;
+    totalProjects = guests * 3;
+  }
 
   const content = `
-    <section class="max-w-3xl mx-auto px-4 py-12 space-y-8">
+    <section class="max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-6 sm:space-y-8">
       <div class="text-center space-y-2">
-        <h1 class="text-3xl font-black text-charcoal-950">BeadsILY Secure Checkout</h1>
-        <p class="text-xs text-neutral-500">15-Guest Party Kit • Beadable Pens, Keychains & Bracelets</p>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-pink-50 text-charcoal-950 border border-pink-500/20">
+          Stripe Secure Checkout
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-black text-charcoal-950 tracking-tight">Complete Your Order</h1>
+        <p class="text-xs sm:text-sm text-neutral-600">Free standard shipping nationwide • 100% Satisfaction Guarantee</p>
       </div>
 
-      <div class="bg-white rounded-3xl p-8 border border-cream-200 shadow-sm space-y-6">
+      <!-- Order Summary Card -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cream-200 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-pink-600">${isMystery ? 'Curated Keepsakes' : 'Party Kit Package'}</span>
+            <h2 class="text-lg sm:text-xl font-black text-charcoal-950">${productName}</h2>
+            <p class="text-xs text-neutral-500">${themeDescription}</p>
+          </div>
+          <div class="text-left sm:text-right">
+            <span class="text-2xl sm:text-3xl font-black text-charcoal-950">$${totalPrice}.00</span>
+            <span class="block text-[11px] text-emerald-700 font-semibold">Free Standard Shipping</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs bg-cream-100 p-4 rounded-2xl border border-cream-200">
+          <div>
+            <span class="text-neutral-500 block">Total Guests:</span>
+            <strong class="text-charcoal-950 font-bold">${isMystery ? (sku === 'MYS-DUO-01' ? '2 Crafters' : '1 Crafter') : `${guests} Guests`}</strong>
+          </div>
+          <div>
+            <span class="text-neutral-500 block">Total Keepsakes:</span>
+            <strong class="text-charcoal-950 font-bold">${totalProjects} Finished Items</strong>
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <span class="text-neutral-500 block">Breakdown:</span>
+            <strong class="text-charcoal-950 font-bold">${isMystery ? `${totalProjects} Projects` : `${guests} Pens • ${guests} Keychains • ${guests} Bracelets`}</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer & Shipping Information -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
         <div class="space-y-4">
-          <h2 class="text-lg font-bold text-charcoal-950">Customer & Shipping Information</h2>
+          <h2 class="text-lg font-bold text-charcoal-950">1. Customer & Shipping Information</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-neutral-600 mb-1">Email Address</label>
-              <input type="email" placeholder="host@example.com" class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+              <input type="email" placeholder="host@example.com" class="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 min-h-[48px]" required />
             </div>
             <div>
               <label class="block text-xs font-semibold text-neutral-600 mb-1">Full Name</label>
-              <input type="text" placeholder="Jane Doe" class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+              <input type="text" placeholder="Jane Doe" class="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 min-h-[48px]" required />
             </div>
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold text-neutral-600 mb-1">Shipping Address</label>
-              <input type="text" placeholder="123 Celebration Lane, Phoenix, AZ 85001" class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+              <input type="text" placeholder="123 Celebration Lane, Phoenix, AZ 85001" class="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-100 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 min-h-[48px]" required />
             </div>
           </div>
         </div>
 
         <div class="border-t border-cream-200 pt-6 space-y-4">
-          <h2 class="text-lg font-bold text-charcoal-950">Payment Method (Stripe Embedded)</h2>
+          <h2 class="text-lg font-bold text-charcoal-950">2. Payment Method (Stripe Embedded)</h2>
           <div class="p-6 rounded-2xl bg-cream-100 border border-cream-200 text-center space-y-3">
             <p class="text-xs text-neutral-600">Credit card, Apple Pay, and Google Pay securely handled via Stripe.</p>
-            <button onclick="alert('Stripe test sandbox connected. Production credentials pending live key setup.')" class="btn-primary px-8 py-3 rounded-xl text-sm shadow-sm active:scale-95 transition-transform">
-              Submit Test Order ($189.00)
+            <button 
+              type="button" 
+              onclick="alert('Stripe test sandbox connected. Ready for ${productName} ($${totalPrice}.00). Production credentials pending live key setup.')" 
+              class="btn-primary w-full sm:w-auto px-8 py-3.5 rounded-2xl text-sm font-bold shadow-md active:scale-95 transition-transform inline-flex items-center justify-center min-h-[48px]"
+            >
+              Submit Test Order ($${totalPrice}.00)
             </button>
           </div>
         </div>
@@ -763,6 +1133,25 @@ const BRAND_WORDMARK_COLOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBo
 
 const BRAND_HEART_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4210 115 200 200" width="100%" height="100%"><title>BeadsILY Heart Icon</title><desc>BeadsILY Official Heart Icon with specular highlight</desc><g id="heart-icon"><path d="M 4308.352 302.398 C 4288.191 288.000, 4224.832 247.680, 4224.832 198.719 C 4224.832 144.000, 4282.430 129.602, 4308.352 175.680 C 4334.270 129.602, 4391.871 144.000, 4391.871 198.719 C 4391.871 247.680, 4328.512 288.000, 4308.352 302.398 Z" fill="#FF689D" stroke="#D93D75" stroke-width="6" stroke-linejoin="round"/><path d="M 4242.109 201.602 C 4242.109 161.281, 4279.551 149.762, 4296.832 181.441" fill="none" stroke="#FFFFFF" stroke-width="10.656" stroke-linecap="round"/><path d="M 4256.512 250.559 C 4273.793 270.719, 4293.953 285.121, 4308.352 293.762 C 4331.391 279.359, 4360.191 259.199, 4374.590 239.039" fill="none" stroke="#D93D75" stroke-width="6.912" stroke-linecap="round"/></g></svg>`;
 
+const FALL_FESTIVAL_ICS = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'PRODID:-//BeadsILY//NONSGML BeadsILY Event Calendar//EN',
+  'CALSCALE:GREGORIAN',
+  'METHOD:PUBLISH',
+  'BEGIN:VEVENT',
+  'UID:fall-festival-20261023@beadsily.com',
+  'DTSTAMP:20261006T000000Z',
+  'DTSTART:20261024T000000Z',
+  'DTEND:20261024T030000Z',
+  'SUMMARY:BeadsILY Bead Bar Soft Launch @ Santa Fe Fall Festival',
+  'DESCRIPTION:Join BeadsILY at the Santa Fe Elementary Fall Festival! Pick your beads and craft 3 keepsakes: beadable metallic pen\\, carabiner charm\\, and elastic stretch bracelet. Card and mobile tap-to-pay accepted on site.',
+  'LOCATION:Santa Fe Elementary School, AZ',
+  'STATUS:CONFIRMED',
+  'END:VEVENT',
+  'END:VCALENDAR',
+].join('\r\n');
+
 export default {
   async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
     try {
@@ -785,7 +1174,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.2.4',
+          version: '1.2.5',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
@@ -840,6 +1229,18 @@ export default {
           headers: {
             'Content-Type': 'image/svg+xml; charset=utf-8',
             'Cache-Control': 'public, max-age=604800, immutable',
+          },
+        });
+      }
+
+      // Calendar Event ICS Route
+      if (url.pathname === '/events/beadsily-launch.ics') {
+        return new Response(FALL_FESTIVAL_ICS, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/calendar; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="beadsily-fall-festival.ics"',
+            'Cache-Control': 'public, max-age=86400',
           },
         });
       }
@@ -990,6 +1391,13 @@ export default {
 
       if (url.pathname === '/mystery-boxes') {
         return new Response(renderMysteryBoxesPage(), {
+          status: 200,
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
+      }
+
+      if (url.pathname === '/checkout') {
+        return new Response(renderCheckoutPage(url), {
           status: 200,
           headers: { 'Content-Type': 'text/html; charset=utf-8' },
         });

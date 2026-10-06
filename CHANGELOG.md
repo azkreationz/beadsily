@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.5] - 2026-10-06
+
+### Interactive Party Kit Configurator, Guest Count Tiers (15-30), Save the Date Calendar & Mobile Button Optimization
+*Delivered full client-side theme selection, 5-guest increment tiers (15, 20, 25, 30), RFC 5545 downloadable calendar invite (.ics) & Google Calendar integration for the Santa Fe Fall Festival, dynamic checkout pricing, and mobile touch target enhancements.*
+
+#### Added
+- **Interactive Theme & Package Configurator (`/party-kits`):**
+  - Made all 4 launch themes fully selectable (`PK-15-TAY` Taylor's Era, `PK-15-BOHO` Desert Bloom, `PK-15-NEON` Glow Neon Daisy, `PK-15-PRN` Mermaid Cove) with instant visual feedback, active state borders, and checkmark indicators.
+  - Implemented selectable guest counts in quantities of 5 extra: 15 guests (Base, 45 projects, $189.00), 20 guests (+5 guests, 60 projects, $249.00), 25 guests (+10 guests, 75 projects, $309.00), and 30 guests (+15 guests, 90 projects, $369.00).
+  - Embedded client-side reactive calculations updating Order Summary, extra guest line item, total price, per-guest rate, and checkout CTA link dynamically.
+- **Save the Date & Add to Calendar (`/events/beadsily-launch.ics`):**
+  - Implemented RFC 5545 compliant `.ics` endpoint for the Santa Fe Elementary Fall Festival soft launch event (Friday, Oct 23, 2026, 5:00 PM – 8:00 PM MST).
+  - Added dual "Save Date (.ics)" and "Google Cal ↗" action buttons to the hero event card, as well as an "Add to Calendar 📅" link in the top announcement bar.
+- **Dynamic Secure Checkout Route (`/checkout`):**
+  - Added dedicated checkout page dynamically computing theme descriptions, guest counts, and project breakdowns (pens, keychains, bracelets) from query parameters.
+- **Mobile Button Ergonomics & Touch Target Optimization:**
+  - Upgraded mobile hero form button, header button, and mystery box buttons to minimum 44px/48px touch targets with responsive full-width mobile behavior to prevent wrapping or clipping on narrow viewports.
+
+---
+
 ## [1.2.4] - 2026-10-06
 
 ### Admin Gatekeeper Security, Passkey Protection & Search Engine Concealment

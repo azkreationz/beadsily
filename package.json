@@ -1,6 +1,6 @@
 {
   "name": "beadsily",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "BeadsILY direct-to-consumer commerce platform on Cloudflare Edge with Stripe Embedded Checkout, D1 atomic inventory, and curated craft kits.",
   "private": true,
   "type": "module",

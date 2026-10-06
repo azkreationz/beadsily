@@ -1,6 +1,6 @@
 # BeadsILY Direct-to-Consumer Commerce Platform
 
-[![Release Version](https://img.shields.io/badge/version-1.2.4-pink.svg)](./package.json)
+[![Release Version](https://img.shields.io/badge/version-1.2.5-pink.svg)](./package.json)
 [![Acceptance Tests](https://img.shields.io/badge/tests-163%2F163%20passing-brightgreen.svg)](./tests/run-all-acceptance-tests.mjs)
 [![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.2%20AA%20Certified-blue.svg)](./packages/ui/src/tokens/colors.ts)
 [![Security Audited](https://img.shields.io/badge/security-Dwight%20Certified%20(43%2F43%20tests)-orange.svg)](./packages/auth/)

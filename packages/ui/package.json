@@ -1,6 +1,6 @@
 {
   "name": "@beadsily/ui",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Accessible, mobile-first design tokens and UI component primitives for BeadsILY storefront",
   "type": "module",
   "main": "./src/index.ts",
