@@ -26,21 +26,23 @@ Every supply, tool, and instruction card needed for an unforgettable celebration
 Before your guests arrive, spend 5 minutes checking your kit contents against this master checklist:
 
 ```
-[ ] 15  Beadable Pen Blanks (Metal threaded mandrels, black ink installed, tip caps on)
-[ ] 15  Swivel Lobster Clasp & 25mm Keyring Hardware Sets
-[ ] 180" Heavy-Duty Clear Elastic Stretch Cord (0.8mm) (15 pre-measured 12" segments + spare coil)
-[ ] 45  Theme Focal Silicone Beads (Food-grade, non-toxic, pre-drilled 2.5mm holes)
-[ ] 270 Accent & Spacer Beads (12mm–14mm round silicone, faceted abacus, and metallic acrylics)
-[ ] 60  Alphabet Letter Beads (Pooled party assortment for names and initials)
-[ ]  2  Child-Safe Precision Craft Scissors
-[ ]  2  Ergonomic Bead Sorting Trays (Velvet-finish, anti-roll grooved channels)
-[ ] 15  Individual Sheer Organza Favor Gift Bags (For guests to pack their 3 finished treasures)
-[ ] 15  Guest Step-by-Step Assembly Cards (One for each seat at your craft table)
-[ ]  1  BeadsILY Host Spare Supply Envelope (Includes spare cord, 6 extra accent beads, 2 extra focals)
+[ ] 16  Beadable Pen Blanks (Metal 2.5mm threaded mandrels, black ink installed, tip caps on) (15 + 1 host spare)
+[ ] 16  Swivel Lobster Clasp & 25mm Keyring Hardware Sets (15 + 1 host spare)
+[ ] 18  Pre-Cut 12" Elastic Stretch Cords (1.0mm heavy-duty TPU) (15 + 3 host spares)
+[ ] 48  Theme Focal Silicone Beads (Food-grade, non-toxic, pre-drilled 2.5mm holes) (45 + 3 host spares)
+[ ] 265 Accent Silicone Beads (165 of 15mm round, 100 of 12mm round satin/glitter)
+[ ] 35  Crystal Rhinestone Rondelle Spacers (8mm sparkle accents)
+[ ] 60  Alphabet Letter Silicone Cubes (Pooled party assortment for names and initials)
+[ ]  2  Kid-Safe Blunt 5" Craft Scissors (TOOL-SCIS-BLUNT)
+[ ]  2  Silicone Flower 6-Well Sorting Trays (TOOL-TRAY-6COMP)
+[ ]  1  Soft Retractable Tape Measure (TOOL-TAPE-MEAS) (For effortless wrist sizing!)
+[ ] 16  Shimmer Organza Favor Gift Bags (PKG-BAG-ORG-4X6) (For guests to pack their 3 finished treasures)
+[ ] 15  Guest Step-by-Step Assembly Cards (Laminated quick-guides for each seat)
+[ ]  1  BeadsILY Host Master Planning Guide & Troubleshooting Booklet
 ```
 
 > [!TIP]
-> **The BeadsILY Buffer Invariant:** We include 10–15% extra elastic cord and a dedicated "Host Spare Supply Envelope." If a guest drops a bead that rolls under a sofa, or cuts their cord too short, never worry—your spare envelope has you covered without diminishing another guest's project!
+> **The BeadsILY Buffer Invariant:** Every kit is intentionally packed with extra hardware, cord, and beads (16 pens, 16 clasps, 18 cords, 48 focals, extra accents) so you never experience a supply panic! If a bead rolls away or a crafter makes a mistake, your kit's built-in buffer covers you seamlessly.
 
 ---
 
