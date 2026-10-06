@@ -11,7 +11,8 @@
   "dependencies": {
     "@beadsily/ui": "workspace:*",
     "@beadsily/db": "workspace:*",
-    "@beadsily/auth": "workspace:*"
+    "@beadsily/auth": "workspace:*",
+    "@beadsily/payments": "workspace:*"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.0",

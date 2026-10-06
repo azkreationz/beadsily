@@ -1,0 +1,30 @@
+# BeadsILY Task Contract: BCF-12
+
+- **Task ID / Phase:** `BCF-12` / Phase 2 (Launch Slice & Payments)
+- **Business Trigger and Resulting Behavior:** Enable secure embedded checkout for party kits and curated mystery boxes using Stripe Embedded Payment Element; recalculate prices server-side (`PAY-01`); verify webhook HMAC signatures and deduplicate replays (`PAY-03`/`04`); transition order status and consume D1 stock reservations upon confirmed provider payment.
+- **Accountable Implementer:** Angela (`angela-muwif3s4`), Commercial Payments & Subscription Lead
+- **Independent Reviewer(s):** Toby (`toby-muwie8nd`, QA), Dwight (`dwight-muwicook`, Security)
+- **BeadsILY Repository / Branch / Workspace:** `beadsily-com` / `agent/angela-muwif3s4` / `C:\repositories\beadsily-com-floor\worktrees\angela-muwif3s4`
+- **Allowed Paths / Assets / Resources:** `packages/payments/*`, `apps/storefront/src/app/api/checkout/*`, `apps/storefront/src/app/api/webhooks/*`, `apps/storefront/src/app/checkout/*`, `tests/payments/*`
+- **Read-Only Source Repositories and Pinned Snapshots:** `C:\repositories\turbodepot` (ListMint), `C:\repositories\mysteryboxes.app`, `C:\repositories\bidbolt.app`
+- **Environment and Permissions:** Local edit & isolated worktree branch; Stripe testmode mock sandbox. No live card charges.
+- **Dependencies and Owner Decisions:** Depends on `BCF-7` (D1 migrations by Oscar) and `BCF-11` (Kit configurator by Erin).
+- **Data/State Invariants:**
+  - Server-derived pricing only: client-supplied unit amounts or discounts are discarded (`PAY-01`).
+  - Redirect alone cannot mark an order paid (`PAY-02`).
+  - Webhooks cryptographically verified via HMAC-SHA256 with 300s tolerance (`PAY-03`).
+  - Two-phase commit in `webhook_events`: duplicate event IDs return HTTP 200 with zero duplicate inventory consumption (`PAY-04`).
+  - Prepacked mystery boxes execute strictly under one-time payment mode, never recurring subscription mode (`MYS-05`).
+  - Billing portal sessions enforce customer isolation (`PAY-05`).
+- **API/Database/UI Changes:**
+  - Created package `@beadsily/payments`
+  - Created API routes `POST /api/checkout/session` and `POST /api/webhooks/stripe`
+  - Created pages `/checkout` and `/checkout/return`
+  - Created integration test suite `tests/payments/embedded-checkout-integration.test.mjs`
+- **Relevant Acceptance Case IDs:** `PAY-01`, `PAY-02`, `PAY-03`, `PAY-04`, `PAY-05`, `INV-01`, `INV-02`, `INV-06`, `MYS-03`, `MYS-05`
+- **Tests and Evidence Required:** 7/7 tests passing in `tests/payments/embedded-checkout-integration.test.mjs`; 119/119 tests passing in master matrix suite `tests/run-all-acceptance-tests.mjs`.
+- **Physical Checks Required from a Person:** None (pure digital payment integration and sandbox simulation).
+- **Migration/Backup and Rollback/Reconciliation Plan:** Code changes isolated in branch `agent/angela-muwif3s4`. Reverting commits rolls back endpoints without altering underlying D1 migration schemas. Missing webhooks recoverable via Stripe events reconciliation.
+- **Definition of Done:** Complete embedded checkout session creator, pricing calculator, webhook signature verifier and replay handler, storefront checkout UI, deliverable report, and 100% automated test coverage.
+- **Escalation Condition and Next Independent Task:** Escalate live card transactions or production credential needs to Korry Nelson / Michael. Unblocks `BCF-13` (Oscar: Mystery box allocation) and `BCF-18` (Toby: Release certification).
+- **Review / Release Status:** READY FOR REVIEW

@@ -28,6 +28,7 @@ const testSuites = [
 
   // 4. Payments, Checkout & Webhooks (PAY-01..05)
   path.join(__dirname, 'payments', 'payments-webhooks.test.mjs'),
+  path.join(__dirname, 'payments', 'embedded-checkout-integration.test.mjs'),
 
   // 5. Curated Mystery Craft Boxes (MYS-01..06)
   path.join(__dirname, 'mystery', 'mystery-boxes.test.mjs'),
