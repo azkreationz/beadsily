@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.1] - 2026-10-06
+
+### Custom Domain Routing & WWW Subdomain Resolution
+*Attached canonical apex domain beadsily.com and www.beadsily.com directly to Cloudflare Workers edge, resolving DNS_PROBE_FINISHED_NXDOMAIN and enabling global zero-cold-start access.*
+
+#### Added
+- **Cloudflare Workers Custom Domain Triggers (`apps/storefront/wrangler.jsonc`):**
+  - Configured apex `beadsily.com` and subdomain `www.beadsily.com` as active custom domain routes.
+  - Enabled dual routing with `"workers_dev": true` ensuring test automation, preview scripts, and fallback edges remain accessible.
+  - Cloudflare edge automatically provisions SSL/TLS edge certificates and provisions Anycast DNS routing across all global points of presence.
+- **Apex Canonical 301 Redirect:**
+  - Automated permanent 301 redirection from `https://www.beadsily.com` to canonical apex `https://beadsily.com/`.
+
+#### Fixed
+- **Resolved `DNS_PROBE_FINISHED_NXDOMAIN`:**
+  - Attached custom domain to storefront worker, activating DNS zone mapping and live HTTPS delivery. Verified `200 OK` on `https://beadsily.com` and `https://beadsily.com/health`.
+
+---
+
 ## [1.2.0] - 2026-10-06
 
 ### Teaser Landing Page & Cloudflare D1 Email Subscription Engine

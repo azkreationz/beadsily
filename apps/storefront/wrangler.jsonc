@@ -17,10 +17,21 @@
       "bucket_name": "beadsily-media-prod"
     }
   ],
+  "workers_dev": true,
   "alias": {
     "@beadsily/db": "../../packages/db/src/index.mjs",
     "@beadsily/payments": "../../packages/payments/src/index.mjs"
   },
+  "routes": [
+    {
+      "pattern": "beadsily.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.beadsily.com",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true
   }
