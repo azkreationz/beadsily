@@ -1,0 +1,19 @@
+{
+  "name": "@beadsily/db",
+  "version": "0.1.0",
+  "description": "BeadsILY Cloudflare D1 relational database schemas, migrations, and atomic inventory repository",
+  "type": "module",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "node tests/atomic-reservation.test.mjs"
+  },
+  "keywords": [
+    "cloudflare-d1",
+    "sqlite",
+    "atomic-inventory",
+    "beadsily"
+  ],
+  "author": "Oscar (oscar-muwid2fm) <oscar@beadsily.com>",
+  "license": "UNLICENSED",
+  "private": true
+}

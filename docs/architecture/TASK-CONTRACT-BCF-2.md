@@ -1,0 +1,58 @@
+# BeadsILY Task Contract: BCF-2
+
+- **Task ID / phase:** `BCF-2` / Phase 0 (Discovery & Boundaries)
+- **Business trigger and resulting behavior:** Complete Next.js runtime compatibility evaluation on Cloudflare Workers (`vinext` vs `@opennextjs/cloudflare`), establish baseline architectural decisions, prove core database/Stripe/auth invariants, and deliver the architectural foundation for Phase 1 code initialization.
+- **Accountable implementer:** Jim (`jim-muwibr7y`, Cloudflare Solutions Architect)
+- **Independent reviewer(s):** Dwight (`dwight-muwicook`, Security & Privacy Lead), Toby (`toby`, Independent QA Certifier), Michael (`god`, Manager/Scribe)
+- **BeadsILY repository / branch / workspace:** 
+  - Primary Repository: `C:\repositories\beadsily-com`
+  - Active Worktree: `C:\repositories\beadsily-com-floor\worktrees\jim-muwibr7y`
+  - Active Branch: `agent/jim-muwibr7y`
+- **Allowed paths / assets / resources:**
+  - `worktrees/jim-muwibr7y/docs/architecture/*`
+  - `worktrees/jim-muwibr7y/spike/*`
+  - `docs/architecture/*` (shared floor reference copy)
+  - `hive/tasks.json` (task status update)
+  - `hive/agents/jim-muwibr7y/memory.md` (durable memory log)
+- **Read-only source repositories and pinned snapshots:**
+  - `turbodepot` (ListMint): `bd1704c690607cf32972f0ed8eed42897c0d583e`
+  - `mysteryboxes.app`: `7e9292ae277fdb2e29af4f9171e3d07f69f41395`
+  - `bidbolt.app`: `a59cb79faa2670383bc662c45685f28bc0476fa8`
+- **Environment and permissions (read / local edit / staging / production):**
+  - Read: All listed reference repos and floor documents
+  - Local Edit: Jim's worktree, shared docs, hive agent folder
+  - Staging / Production: None (Phase 0 local preflight only)
+- **Dependencies and owner decisions:**
+  - Prerequisite: `BCF-1` (Adopt Standing Mission, Schema Verification, Specialist Hires) - **DONE**
+  - Owner Decisions: Canonical domain `beadsily.com`, Cloudflare account entitlement verification
+- **Data/state invariants:**
+  1. Atomic BOM Reservation: Multi-component kit reservations must be all-or-nothing; an over-reservation must abort the batch and trigger complete rollback.
+  2. Webhook Replay Resistance: Replayed Stripe webhook IDs must be rejected idempotently without repeating fulfillment.
+  3. Zero Node Dependencies for Edge Auth: HMAC-SHA256 session verification runs in native Web Crypto.
+- **API/database/UI changes:**
+  - Schema prototype: `components`, `inventory_reservations`, `webhook_events`.
+  - SQLite constraint trigger `trg_enforce_stock_reservation` on `components`.
+  - Wrangler configuration prototype `spike/wrangler.jsonc`.
+- **Relevant acceptance case IDs:**
+  - `INV-01`, `INV-02`: Atomic multi-component stock reservation and zero-row rollback.
+  - `PAY-03`: Webhook idempotency and signature validation.
+  - `AUTH-01`: Secure session token generation and verification.
+  - `SEO-01`: Server-rendered OpenGraph metadata and Product schema.
+- **Tests and evidence required:**
+  - Passing execution of `spike/test-suite.mjs` verifying all 4 suites.
+  - Passing execution of Wrangler local D1 commands (`wrangler d1 execute --local`).
+  - Proven failure and abort of over-reservation attempt via SQLite constraint trigger.
+- **Physical checks required from a person:**
+  - Korry Nelson / Owner confirmation of Cloudflare account tier (Workers Paid, D1, R2, Email Sending).
+- **Migration/backup and rollback/reconciliation plan:**
+  - Clean local git commit on branch `agent/jim-muwibr7y`.
+  - Invariant failure immediately rolls back D1 batch transaction.
+- **Definition of done:**
+  - ADR-001 refined; ADR-002 authored and accepted with runtime spike evidence.
+  - REUSE-MATRIX.md completed with pinned commits and audit decisions.
+  - All test suites executed and documented.
+  - Task updated in `tasks.json`; outbox message delivered to `god`, `dwight`, and `toby`.
+- **Escalation condition and next independent task:**
+  - Unblock `BCF-6` (Phase 1: Initialize BeadsILY App Repository & Pinned Tooling).
+  - Next independent tasks: `BCF-3` (Pam: Inventory Intake), `BCF-4` (Dwight: Threat Model).
+- **Review / release status:** REVIEW_SUBMITTED (Completed by Jim, awaiting Dwight & Toby sign-off).
