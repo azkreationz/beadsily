@@ -32,6 +32,7 @@ const testSuites = [
 
   // 5. Curated Mystery Craft Boxes (MYS-01..06)
   path.join(__dirname, 'mystery', 'mystery-boxes.test.mjs'),
+  path.join(__dirname, 'mystery', 'curated-mystery-allocation.test.mjs'),
 
   // 6. Subscriptions Lifecycle & Entitlements (SUB-01..06)
   path.join(__dirname, 'subscriptions', 'subscriptions.test.mjs'),
