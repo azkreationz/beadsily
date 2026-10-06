@@ -30,6 +30,14 @@
     {
       "pattern": "www.beadsily.com",
       "custom_domain": true
+    },
+    {
+      "pattern": "beadsilly.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.beadsilly.com",
+      "custom_domain": true
     }
   ],
   "observability": {

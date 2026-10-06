@@ -35,7 +35,8 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title} | BeadsILY</title>
-  <meta name="description" content="BeadsILY delivers tactile 15-guest party craft kits (45 keepsakes guaranteed) and curated one-time mystery craft boxes with zero lottery mechanics." />
+  <meta name="description" content="BeadsILY delivers tactile 15-guest party craft kits and curated mystery craft boxes with premium beads, focals, and hardware." />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="canonical" href="https://beadsily.com${currentPath === '/' ? '' : currentPath}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,7 +157,7 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
       <div>
         <h4 class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-3">The BeadsILY Promise</h4>
         <ul class="text-xs space-y-2 text-neutral-400">
-          <li>✓ 15 Guests / 45 Keepsakes Guaranteed</li>
+          <li>✓ Complete Craft Kits for 15+ Guests</li>
           <li>✓ Generous Hardware & Extra Spares Included</li>
           <li>✓ Honest Sealed Boxes (No Subscription Traps)</li>
           <li>✓ Designed with Love for Crafters of All Ages</li>
@@ -199,7 +200,7 @@ function renderTeaserPage(url: URL): string {
             <span class="text-pink-400">In the Making.</span>
           </h1>
           <p class="text-base sm:text-xl text-cream-100 max-w-2xl mx-auto leading-relaxed font-normal">
-            The modern bead bar for playful self-expression. High-grade 15-guest craft party kits (45 keepsakes guaranteed), curated mystery craft boxes, and custom accessories.
+            The modern bead bar for playful self-expression. Boutique 15-guest party craft kits, curated mystery boxes, and bead bar keepsakes.
           </p>
         </div>
 
@@ -253,7 +254,7 @@ function renderTeaserPage(url: URL): string {
               <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">From $189 →</span>
             </div>
             <h3 class="text-base font-bold text-white group-hover:text-pink-300 transition-colors mt-1">15-Guest Party Kits</h3>
-            <p class="text-xs text-neutral-300 mt-1">45 keepsakes guaranteed (pens, keychains, bracelets) with full host guide & spares buffer.</p>
+            <p class="text-xs text-neutral-300 mt-1">Beadable pens, keychain charms, and stretch bracelets with full host guide & spares buffer.</p>
           </a>
 
           <a href="/mystery-boxes" class="group bg-white/5 hover:bg-white/10 border border-white/15 hover:border-amber-400/50 rounded-2xl p-5 transition-all backdrop-blur-sm">
@@ -357,7 +358,7 @@ function renderPartyKitsPage(): string {
         </div>
         <h1 class="text-3xl md:text-5xl font-black text-charcoal-950 tracking-tight">Configure Your 15-Guest Kit</h1>
         <p class="text-sm md:text-base text-neutral-600 max-w-xl mx-auto">
-          Starts at $189.00 for 15 guests (45 keepsakes). Add extra guests for +$12.00 each (+3 items per guest).
+          Starts at $189.00 for 15 guests. Easily scale up your guest count with extra hardware and beads included.
         </p>
       </div>
 
@@ -499,7 +500,7 @@ function renderCheckoutPage(url: URL): string {
     <section class="max-w-3xl mx-auto px-4 py-12 space-y-8">
       <div class="text-center space-y-2">
         <h1 class="text-3xl font-black text-charcoal-950">BeadsILY Secure Checkout</h1>
-        <p class="text-xs text-neutral-500">15-Guest Party Kit • 45 Finished Keepsakes Guaranteed</p>
+        <p class="text-xs text-neutral-500">15-Guest Party Kit • Beadable Pens, Keychains & Bracelets</p>
       </div>
 
       <div class="bg-white rounded-3xl p-8 border border-cream-200 shadow-sm space-y-6">
@@ -536,6 +537,144 @@ function renderCheckoutPage(url: URL): string {
   return getHtmlLayout('Secure Checkout', content, '/checkout');
 }
 
+function renderAdminPage(subscribers: any[] = []): string {
+  const count = subscribers.length;
+  const content = `
+    <section class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-cream-200 pb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-pink-50 text-charcoal-950 border border-pink-500/20 mb-2">
+            🔐 BeadsILY Command Center
+          </div>
+          <h1 class="text-3xl font-black text-charcoal-950 tracking-tight">Storefront Management & Operations</h1>
+          <p class="text-xs sm:text-sm text-neutral-600">Email subscribers, catalog tiers, R2 media storage, and booth sales.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="/admin/subscribers.csv" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm">
+            <span>📥 Export Subscribers (CSV)</span>
+          </a>
+          <a href="/" target="_blank" class="px-4 py-2.5 rounded-xl text-xs font-bold border border-cream-300 bg-white text-charcoal-900 hover:bg-cream-50 transition-colors">
+            Live Storefront ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-xs space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">VIP Subscribers</span>
+          <p class="text-3xl font-black text-pink-600">${count}</p>
+          <span class="text-[11px] text-emerald-600 font-semibold">Active in D1 Database</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-xs space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Party Kit Themes</span>
+          <p class="text-3xl font-black text-charcoal-950">4</p>
+          <span class="text-[11px] text-neutral-500">Taylor, Desert, Daisy, Mermaid</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-xs space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Mystery Tiers</span>
+          <p class="text-3xl font-black text-charcoal-950">2</p>
+          <span class="text-[11px] text-neutral-500">Solo ($28) & Duo ($48)</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-xs space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Soft Launch Event</span>
+          <p class="text-xl font-black text-charcoal-950">Oct 23, 2026</p>
+          <span class="text-[11px] text-amber-600 font-semibold">Santa Fe Fall Festival</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-bold text-charcoal-950">Email Subscribers & VIP Leads</h2>
+              <p class="text-xs text-neutral-500">Real-time records captured from the beadsily.com landing page</p>
+            </div>
+            <a href="/admin/subscribers.csv" class="text-xs font-bold text-pink-600 hover:text-pink-700">Download .CSV →</a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-neutral-700">
+              <thead class="bg-cream-100 text-charcoal-950 font-bold border-b border-cream-200">
+                <tr>
+                  <th class="py-3 px-4 rounded-l-xl">Subscriber Email</th>
+                  <th class="py-3 px-3">Source</th>
+                  <th class="py-3 px-3">Signed Up</th>
+                  <th class="py-3 px-3 rounded-r-xl">Country</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cream-100">
+                ${subscribers.length === 0 ? `
+                  <tr>
+                    <td colspan="4" class="py-8 text-center text-neutral-400">No subscribers recorded yet.</td>
+                  </tr>
+                ` : subscribers.map((s: any) => `
+                  <tr class="hover:bg-pink-50/30 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-charcoal-950">${s.email}</td>
+                    <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-cream-200 text-neutral-700 text-[10px] font-medium">${s.source || 'landing'}</span></td>
+                    <td class="py-3 px-3 text-neutral-500">${new Date(s.created_at).toLocaleDateString()} ${new Date(s.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                    <td class="py-3 px-3"><span class="font-mono text-neutral-600">${s.ip_country || 'US'}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-cream-200 shadow-xs space-y-4">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-pink-600">Admin Modules</h3>
+            
+            <div class="space-y-3 text-xs">
+              <div class="p-3.5 rounded-2xl bg-cream-50 border border-cream-200 space-y-1">
+                <div class="flex items-center justify-between font-bold text-charcoal-950">
+                  <span>✉️ Email Outbox & Inbound</span>
+                  <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Active</span>
+                </div>
+                <p class="text-neutral-500">Transactional receipts and support sanitization powered by <code class="text-[10px] font-mono">@beadsily/email</code>.</p>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-cream-50 border border-cream-200 space-y-1">
+                <div class="flex items-center justify-between font-bold text-charcoal-950">
+                  <span>📦 Package Pricing & Tiers</span>
+                  <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Configured</span>
+                </div>
+                <p class="text-neutral-500">15-guest kits starting at $189.00 (+$12/extra guest). Curated mystery boxes ($28 & $48).</p>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-cream-50 border border-cream-200 space-y-1">
+                <div class="flex items-center justify-between font-bold text-charcoal-950">
+                  <span>🖼️ Media Storage (R2)</span>
+                  <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Connected</span>
+                </div>
+                <p class="text-neutral-500">Zero-egress bucket <code class="text-[10px] font-mono">beadsily-media-prod</code> hosting craft flatlays, favicons, and logos.</p>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-cream-50 border border-cream-200 space-y-1">
+                <div class="flex items-center justify-between font-bold text-charcoal-950">
+                  <span>🎪 School Booth Offline POS</span>
+                  <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Rehearsed</span>
+                </div>
+                <p class="text-neutral-500">28-sale idempotent sync reconciliation for cash & card card-reader operations.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-charcoal-950 text-cream-100 rounded-3xl p-6 space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-pink-400">Direct Actions</h4>
+            <ul class="text-xs space-y-2 text-neutral-300">
+              <li><a href="/admin/subscribers.csv" class="hover:text-white flex items-center justify-between"><span>📥 Download Subscribers CSV</span> <span>→</span></a></li>
+              <li><a href="/images/beadsily-craft-beads-flatlay.jpg" target="_blank" class="hover:text-white flex items-center justify-between"><span>🖼️ View Active Flatlay Photo</span> <span>↗</span></a></li>
+              <li><a href="/favicon.ico" target="_blank" class="hover:text-white flex items-center justify-between"><span>🔖 View Active Favicon</span> <span>↗</span></a></li>
+              <li><a href="/health" target="_blank" class="hover:text-white flex items-center justify-between"><span>⚡ View Edge Health Check</span> <span>↗</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+  return getHtmlLayout('Admin Command Center', content, '/admin');
+}
+
 const BRAND_WORDMARK_COLOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 200" width="870" height="200"><title>BEADSILY wordmark color</title><desc>BEADSILY custom vector artwork. Outlined lettering; no linked images or fonts.</desc><g transform="translate(35 35) rotate(0) scale(1)"><g transform="translate(0 0) rotate(0) scale(1.1173184357541899)" id="wordmark"><g transform="translate(0 0) rotate(0) scale(1)" id="letter-0-B"><path d="M39 110 C29 110 23 104 27 97 C30 91 37 93 37 98 C37 102 43 102 43 95 L43 24 C43 13 38 9 29 9 C19 9 12 14 12 22 C12 29 19 31 21 25 C22 21 28 22 28 28 C28 39 14 43 6 36 C-5 25 3 6 21 2 C33 -1 46 0 58 0 L74 0 C97 0 109 11 109 28 C109 40 100 48 89 51 C106 55 116 65 116 80 C116 100 100 110 76 110 Z M63 10 L63 46 L73 46 C85 46 91 39 91 28 C91 17 85 10 73 10 Z M63 56 L63 99 L76 99 C90 99 97 92 97 79 C97 64 90 56 76 56 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(123 10) rotate(0) scale(1)" id="letter-1-E"><path d="M3 0 L68 0 L70 20 C70 23 66 24 64 20 C59 10 56 8 41 8 L29 8 L29 44 L40 44 C48 44 50 39 52 33 C53 30 57 30 57 34 L57 62 C57 66 53 66 52 62 C50 55 48 52 40 52 L29 52 L29 91 L44 91 C56 91 63 87 68 77 C70 73 74 74 73 78 L68 100 L3 100 C0 100 0 96 3 95 C10 94 11 91 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(204 10) rotate(0) scale(1)" id="letter-2-A"><path d="M43 0 C45 -2 49 -2 50 2 L85 86 C88 93 90 95 95 96 C98 97 97 100 94 100 L61 100 C58 100 58 96 61 95 C67 94 68 92 65 85 L60 71 L26 71 L21 85 C19 92 21 94 27 95 C30 96 30 100 27 100 L3 100 C0 100 0 96 3 95 C9 94 12 89 15 81 Z M30 62 L57 62 L43 26 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(307 10) rotate(0) scale(1)" id="letter-3-D"><path d="M3 0 L41 0 C75 0 94 17 94 49 C94 80 76 100 42 100 L3 100 C0 100 0 96 3 95 C10 94 11 91 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z M30 9 L30 90 L41 90 C64 90 74 77 74 49 C74 21 64 9 41 9 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(408 11.923076923076923) scale(1 0.9615384615384616)" id="letter-4-S"><path d="M70 3 L72 25 C73 29 68 30 66 26 C59 12 51 8 40 8 C27 8 21 14 21 23 C21 33 32 38 45 43 C64 50 76 58 76 74 C76 92 61 102 40 102 C29 102 20 99 14 96 C11 95 9 97 8 100 L3 100 L1 74 C1 70 5 69 7 73 C15 88 25 94 39 94 C51 94 60 89 60 78 C60 68 49 63 35 58 C15 50 5 42 5 27 C5 9 20 -2 40 -2 C48 -2 55 0 62 3 C65 4 66 2 67 0 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(492 10) rotate(0) scale(1)" id="letter-5-I"><path d="M3 0 L37 0 C40 0 40 4 37 5 C30 6 29 8 29 15 L29 85 C29 92 30 94 37 95 C40 96 40 100 37 100 L3 100 C0 100 0 96 3 95 C10 94 11 92 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g><g transform="translate(539 10) rotate(0) scale(1)" id="letter-6-L"><path d="M3 0 L37 0 C40 0 40 4 37 5 C30 6 29 8 29 15 L29 91 L42 91 C55 91 61 87 67 75 C69 71 73 72 72 76 L68 100 L3 100 C0 100 0 96 3 95 C10 94 11 92 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g><g transform="translate(619 10) rotate(0) scale(1)" id="letter-7-Y"><path d="M3 0 L37 0 C40 0 40 4 37 5 C31 6 30 8 33 13 L54 48 L74 14 C78 8 77 6 70 5 C67 4 67 0 70 0 L94 0 C97 0 97 4 94 5 C87 6 85 10 81 17 L60 53 L60 85 C60 92 62 94 69 95 C72 96 72 100 69 100 L32 100 C29 100 29 96 32 95 C39 94 41 92 41 85 L41 57 L16 16 C12 9 9 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g></g></g></svg>`;
 
 const BRAND_HEART_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4210 115 200 200" width="100%" height="100%"><title>BeadsILY Heart Icon</title><desc>BeadsILY Official Heart Icon with specular highlight</desc><g id="heart-icon"><path d="M 4308.352 302.398 C 4288.191 288.000, 4224.832 247.680, 4224.832 198.719 C 4224.832 144.000, 4282.430 129.602, 4308.352 175.680 C 4334.270 129.602, 4391.871 144.000, 4391.871 198.719 C 4391.871 247.680, 4328.512 288.000, 4308.352 302.398 Z" fill="#FF689D" stroke="#D93D75" stroke-width="6" stroke-linejoin="round"/><path d="M 4242.109 201.602 C 4242.109 161.281, 4279.551 149.762, 4296.832 181.441" fill="none" stroke="#FFFFFF" stroke-width="10.656" stroke-linecap="round"/><path d="M 4256.512 250.559 C 4273.793 270.719, 4293.953 285.121, 4308.352 293.762 C 4331.391 279.359, 4360.191 259.199, 4374.590 239.039" fill="none" stroke="#D93D75" stroke-width="6.912" stroke-linecap="round"/></g></svg>`;
@@ -562,7 +701,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.2.2',
+          version: '1.2.3',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
@@ -573,7 +712,35 @@ export default {
         });
       }
 
-      // 3. Static Brand Assets Serving
+      // 3. Favicon & Web Manifest Serving (from R2)
+      if (
+        url.pathname === '/favicon.ico' ||
+        url.pathname === '/apple-touch-icon.png' ||
+        url.pathname === '/favicon-32x32.png' ||
+        url.pathname === '/favicon-16x16.png' ||
+        url.pathname === '/site.webmanifest'
+      ) {
+        const key = url.pathname.slice(1);
+        if (env.MEDIA) {
+          const object = await env.MEDIA.get(key);
+          if (object) {
+            const headers = new Headers();
+            object.writeHttpMetadata(headers);
+            headers.set('etag', object.httpEtag);
+            if (url.pathname.endsWith('.ico')) {
+              headers.set('Content-Type', 'image/x-icon');
+            } else if (url.pathname.endsWith('.png')) {
+              headers.set('Content-Type', 'image/png');
+            } else if (url.pathname.endsWith('.webmanifest')) {
+              headers.set('Content-Type', 'application/manifest+json');
+            }
+            headers.set('Cache-Control', 'public, max-age=604800, immutable');
+            return new Response(object.body, { headers });
+          }
+        }
+      }
+
+      // 4. Static Brand Assets Serving
       if (url.pathname === '/brand/beadsily-wordmark-color.svg') {
         return new Response(BRAND_WORDMARK_COLOR_SVG, {
           status: 200,
@@ -593,7 +760,7 @@ export default {
         });
       }
 
-      // 4. Static Media & Background Images (via Cloudflare R2)
+      // 5. Static Media & Background Images (via Cloudflare R2)
       if (url.pathname.startsWith('/images/') || url.pathname.startsWith('/media/')) {
         const filename = url.pathname.replace(/^\/(images|media)\//, '');
         if (env.MEDIA) {
@@ -744,10 +911,55 @@ export default {
         });
       }
 
-      if (url.pathname === '/checkout') {
-        return new Response(renderCheckoutPage(url), {
+      if (url.pathname === '/admin' || url.pathname === '/admin/subscribers') {
+        let subscribers: any[] = [];
+        if (env.DB) {
+          try {
+            const res = await env.DB.prepare(
+              'SELECT id, email, source, confirmed, created_at, ip_country, user_agent FROM email_subscribers ORDER BY created_at DESC'
+            ).all();
+            subscribers = (res && res.results) ? (res.results as any[]) : [];
+          } catch (e) {
+            console.error('Failed to query subscribers:', e);
+          }
+        }
+        return new Response(renderAdminPage(subscribers), {
           status: 200,
           headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
+      }
+
+      if (url.pathname === '/admin/subscribers.csv') {
+        const rows = ['id,email,source,confirmed,created_at,ip_country,user_agent'];
+        if (env.DB) {
+          try {
+            const res = await env.DB.prepare(
+              'SELECT id, email, source, confirmed, created_at, ip_country, user_agent FROM email_subscribers ORDER BY created_at DESC'
+            ).all();
+            if (res && res.results) {
+              for (const r of res.results as any[]) {
+                const escapeCsv = (v: any) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+                rows.push([
+                  escapeCsv(r.id),
+                  escapeCsv(r.email),
+                  escapeCsv(r.source),
+                  r.confirmed,
+                  escapeCsv(r.created_at ? new Date(r.created_at).toISOString() : ''),
+                  escapeCsv(r.ip_country),
+                  escapeCsv(r.user_agent),
+                ].join(','));
+              }
+            }
+          } catch (e) {
+            console.error('Failed to export subscribers CSV:', e);
+          }
+        }
+        return new Response(rows.join('\n'), {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="beadsily-subscribers.csv"',
+          },
         });
       }
 

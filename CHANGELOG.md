@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.3] - 2026-10-06
+
+### Domain Aliasing, Favicon Deployment, Phrasing Refinement & Admin Command Center
+*Activated beadsilly.com 301 canonical redirects, deployed official favicon from R2, removed repetitive phrasing, and launched operational /admin portal with real-time D1 subscriber export.*
+
+#### Added
+- **Domain Alias Edge Routing (`beadsilly.com` & `www.beadsilly.com`):**
+  - Attached custom domain triggers in `apps/storefront/wrangler.jsonc`.
+  - Cloudflare Anycast edge intercepts traffic and issues `301 Moved Permanently` to canonical `https://beadsily.com/`.
+- **Favicon & Web App Manifest Serving:**
+  - Deployed official `favicon.ico`, Apple touch icon, and PNG favicons from brand package to Cloudflare R2 (`beadsily-media-prod`).
+  - Added `<link rel="icon" type="image/x-icon" href="/favicon.ico" />` in HTML head and Worker streaming route for `/favicon.ico`.
+- **Admin Command Center (`/admin` & `/admin/subscribers.csv`):**
+  - Integrated live operational portal reporting VIP email subscribers stored in Cloudflare D1 (`beadsily-production-d1`).
+  - Added instant CSV download endpoint `/admin/subscribers.csv` for mailing list management.
+  - Added operational status cards for email outbox, package tiers, R2 media storage, and offline booth POS reconciliation.
+
+#### Changed
+- **Storefront Copy De-Cluttering:**
+  - Removed repetitive `(45 keepsakes guaranteed)` phrasing from hero teaser, feature badges, preview card, and global footer. Retained detailed project counts within specifications.
+
+---
+
 ## [1.2.2] - 2026-10-06
 
 ### Authentic Craft Bead Flatlay Backdrop & Official Vector Header Wordmark
