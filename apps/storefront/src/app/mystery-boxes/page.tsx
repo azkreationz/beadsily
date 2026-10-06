@@ -4,11 +4,39 @@ import {
   ProductCard,
   Accordion,
 } from '@beadsily/ui';
+import { generateProductSchema, generateFaqSchema } from '../../lib/seo';
 
 export const metadata = {
   title: 'Curated Mystery Craft Boxes — BeadsILY Direct-to-Consumer',
   description:
     'Thoughtfully curated physical mystery bead boxes with guaranteed project counts. 100% complete supplies, prepacked sealed inventory, zero recurring subscription traps.',
+  alternates: {
+    canonical: 'https://beadsily.com/mystery-boxes',
+  },
+  openGraph: {
+    title: 'Curated Mystery Craft Boxes — BeadsILY Direct-to-Consumer',
+    description:
+      'Guaranteed project counts with surprise colorways. 100% complete supplies, prepacked sealed inventory, zero subscription traps.',
+    url: 'https://beadsily.com/mystery-boxes',
+    siteName: 'BeadsILY',
+    images: [
+      {
+        url: 'https://beadsily.com/brand/beadsily-logo.svg',
+        width: 1200,
+        height: 630,
+        alt: 'BeadsILY Curated Mystery Craft Boxes',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Curated Mystery Craft Boxes — BeadsILY Direct-to-Consumer',
+    description:
+      'Guaranteed project counts with surprise colorways. 100% complete supplies, prepacked sealed inventory, zero subscription traps.',
+    images: ['https://beadsily.com/brand/beadsily-logo.svg'],
+  },
 };
 
 export default function MysteryBoxesPage() {
@@ -109,8 +137,40 @@ export default function MysteryBoxesPage() {
     },
   ];
 
+  const faqSchema = generateFaqSchema(
+    mysteryFaqs.map((faq) => ({
+      title: faq.title,
+      contentText: faq.subtitle,
+    }))
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16 flex flex-col gap-14">
+      {/* SSR Schema.org Product & Offer Structured Data (SEO-01) */}
+      {mysteryProducts.map((product) => {
+        const schema = generateProductSchema({
+          title: product.title,
+          description: product.description,
+          sku: product.id,
+          priceCents: product.priceInCents,
+          inStock: true,
+          slug: product.slug,
+        });
+        return (
+          <script
+            key={`schema-${product.id}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        );
+      })}
+
+      {/* SSR Schema.org FAQPage Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Intro Header */}
       <div className="max-w-3xl">
         <Badge variant="amber" size="sm" className="mb-2">

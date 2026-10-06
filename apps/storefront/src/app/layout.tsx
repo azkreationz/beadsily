@@ -1,10 +1,38 @@
 import * as React from 'react';
 import './globals.css';
+import { generateOrganizationSchema } from '../lib/seo';
 
 export const metadata = {
   title: 'BeadsILY — Direct-to-Consumer Party Craft Kits & Curated Beads',
   description:
     'Thoughtfully curated bead craft party kits for 15+ guests, monthly subscriptions, and curated mystery boxes with guaranteed project counts. Free nationwide shipping on kits.',
+  alternates: {
+    canonical: 'https://beadsily.com',
+  },
+  openGraph: {
+    title: 'BeadsILY — Direct-to-Consumer Party Craft Kits & Curated Beads',
+    description:
+      'Thoughtfully curated bead craft party kits for 15+ guests, monthly subscriptions, and curated mystery boxes with guaranteed project counts.',
+    url: 'https://beadsily.com',
+    siteName: 'BeadsILY',
+    images: [
+      {
+        url: 'https://beadsily.com/brand/beadsily-logo.svg',
+        width: 1200,
+        height: 630,
+        alt: 'BeadsILY Brand Identity',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BeadsILY — Direct-to-Consumer Party Craft Kits & Curated Beads',
+    description:
+      'Thoughtfully curated bead craft party kits for 15+ guests, monthly subscriptions, and curated mystery boxes with guaranteed project counts.',
+    images: ['https://beadsily.com/brand/beadsily-logo.svg'],
+  },
 };
 
 export default function RootLayout({
@@ -12,11 +40,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = generateOrganizationSchema();
+
   return (
     <html lang="en" className="h-full bg-cream-100">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" href="/brand/beadsily-heart-icon.svg" type="image/svg+xml" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body className="flex min-h-screen flex-col bg-cream-100 text-charcoal-950 antialiased">
         {/* Festival Announcement Bar */}
