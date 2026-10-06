@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.2] - 2026-10-06
+
+### Official Brand Guidelines Integration & Typography Styling
+*Integrated official Brand Direction & Usage specification from founder Korry Nelson into design tokens, typography, and edge storefront.*
+
+#### Added
+- **Official Brand Direction & Usage Documentation:**
+  - Authored [`docs/brand/BRAND-DIRECTION-AND-USAGE.md`](file:///C:/repositories/beadsily-com/docs/brand/BRAND-DIRECTION-AND-USAGE.md) documenting positioning, logo system, clear space, minimum sizing rules, official 9-color RGB/CMYK palette, Cinzel and Poppins typography rules, and illustration standards.
+
+#### Changed
+- **Typography & Font System:**
+  - Added Google Fonts imports for **Cinzel** (headings, labels, and badges) and **Poppins** (body and supporting copy).
+  - Aligned Pearl Cream canvas to authoritative `#FFF8EF` and Pearl Shade to `#E7DECB`.
+  - Updated storefront header wordmark to match the official spec: uninterrupted **BEADSILY** with **BEADS** in soft black (`#171416`) and **ILY** in bubble pink (`#FF689D`).
+  - Added approved campaign copy directions to hero banner: *"A little charm. A lot of heart."* and *"Pick your beads. Make it yours."*
+  - Redeployed live edge Worker (`82f07f28-1833-48f5-824e-d677f5c203c3`) to [`https://beadsily-storefront.razoraz.workers.dev`](https://beadsily-storefront.razoraz.workers.dev).
+
+---
+
 ## [1.1.1] - 2026-10-06
 
 ### Customer-Centric Copy Polish & Internal Jargon Removal

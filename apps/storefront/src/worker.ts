@@ -37,29 +37,44 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   <title>${title} | BeadsILY</title>
   <meta name="description" content="BeadsILY delivers tactile 15-guest party craft kits (45 keepsakes guaranteed) and curated one-time mystery craft boxes with zero lottery mechanics." />
   <link rel="canonical" href="https://beadsily.com${currentPath === '/' ? '' : currentPath}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Poppins', 'system-ui', 'sans-serif'],
+            display: ['Cinzel', 'serif'],
+          },
           colors: {
             pink: {
-              50: '#FDF2F7',
-              500: '#FF689D',
-              600: '#E04E83',
+              50: '#FFF0F6',
+              100: '#FFE4EE',
+              200: '#FFBFD6',
+              300: '#FF97BD',
+              400: '#FF80AD',
+              500: '#FF689D', /* Official Bubble Pink */
+              600: '#E84A83',
             },
+            softpink: '#FFC4DD',
+            rose: '#D93D75',
             cream: {
-              100: '#FCF9F5',
-              200: '#F5EFEB',
+              100: '#FFF8EF', /* Official Pearl Cream */
+              200: '#F8F1E4',
+              300: '#E7DECB', /* Official Pearl Shade */
             },
             charcoal: {
-              900: '#231F20',
-              950: '#171416',
+              900: '#1C181A',
+              950: '#171416', /* Official Soft Black */
             },
+            gold: '#FFC107', /* Warm Gold */
             amber: {
-              100: '#FEF3C7',
-              400: '#FBBF24',
-              500: '#F59E0B',
+              100: '#FFF9C4',
+              400: '#FFEE58',
+              500: '#FFC107',
             }
           }
         }
@@ -77,7 +92,7 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
       min-width: 44px;
     }
     .btn-primary:hover {
-      background-color: #E04E83;
+      background-color: #E84A83;
     }
     .touch-target {
       min-height: 44px;
@@ -95,8 +110,10 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   <header class="border-b border-cream-200 bg-white/80 backdrop-blur sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 group">
-        <span class="text-2xl font-black tracking-tight text-charcoal-950 group-hover:text-pink-600 transition-colors">BeadsILY</span>
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-pink-50 text-charcoal-950 border border-pink-500/20">Craft & Party Kits</span>
+        <span class="text-2xl font-black tracking-tight">
+          <span class="text-charcoal-950">BEADS</span><span class="text-pink-500">ILY</span>
+        </span>
+        <span class="font-display tracking-widest uppercase text-[11px] font-semibold text-charcoal-950 bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-500/20">Bead Bar</span>
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-charcoal-900">
         <a href="/party-kits" class="hover:text-pink-600 transition-colors ${currentPath === '/party-kits' ? 'text-pink-600 font-bold' : ''}">15-Guest Party Kits</a>
@@ -164,14 +181,14 @@ function renderHomePage(): string {
   const content = `
     <!-- Hero Banner -->
     <section class="max-w-6xl mx-auto px-4 pt-12 pb-16 text-center space-y-6">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-charcoal-950 border border-amber-400/30">
-        🌟 45 Finished Keepsakes in Every 15-Guest Box
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-pink-50 text-charcoal-950 border border-pink-500/25">
+        💖 A little charm. A lot of heart.
       </div>
       <h1 class="text-4xl md:text-6xl font-black text-charcoal-950 tracking-tight max-w-4xl mx-auto leading-tight">
-        Host an Unforgettable Craft Party with Zero Scramble.
+        Pick your beads. <br/><span class="text-pink-500">Make it yours.</span>
       </h1>
       <p class="text-base md:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-        Everything your 15 guests need to each create three durable keepsakes: 1 beadable ballpoint pen, 1 swivel keychain charm, and 1 elastic stretch bracelet. Tested novice-ready in 32 minutes.
+        An experience-led bead bar for playful self-expression. Everything your 15 guests need to each create three durable keepsakes: 1 beadable metallic pen, 1 swivel keychain charm, and 1 elastic stretch bracelet. Your next favorite little thing.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
         <a href="/party-kits" class="btn-primary inline-flex items-center justify-center px-8 py-3.5 rounded-xl text-base shadow-lg transition-transform active:scale-95">
@@ -445,7 +462,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.1.1',
+          version: '1.1.2',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
