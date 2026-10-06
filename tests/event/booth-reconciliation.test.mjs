@@ -6,30 +6,22 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import {
+  createBoothSchema,
+  allocateBoothInventory,
+  processBoothReconciliationBatch,
+  reconcileBoothCloseout
+} from '../../packages/db/src/booth.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function createBoothDb() {
   const db = new DatabaseSync(':memory:');
-  db.exec(`
-    CREATE TABLE booth_allocated_inventory (
-      sku TEXT PRIMARY KEY,
-      title TEXT NOT NULL,
-      allocated_quantity INTEGER NOT NULL,
-      sold_quantity INTEGER NOT NULL DEFAULT 0,
-      unit_price_cents INTEGER NOT NULL
-    );
-
-    CREATE TABLE booth_reconciliation_sales (
-      id TEXT PRIMARY KEY,
-      batch_id TEXT NOT NULL,
-      offline_sale_id TEXT UNIQUE NOT NULL,
-      sku TEXT NOT NULL,
-      quantity INTEGER NOT NULL,
-      payment_method TEXT NOT NULL CHECK (payment_method IN ('cash', 'square_pos')),
-      amount_cents INTEGER NOT NULL,
-      recorded_offline_at INTEGER NOT NULL,
-      synced_at INTEGER NOT NULL
-    );
-  `);
+  createBoothSchema(db);
   return db;
 }
 
@@ -40,66 +32,11 @@ describe('EVENT-01 & EVENT-02: Booth Sales & Offline Idempotent Reconciliation',
   beforeEach(() => {
     db = createBoothDb();
     // Allocate 30 finished pens and 20 keychains to the Santa Fe School Festival Booth
-    db.exec(`
-      INSERT INTO booth_allocated_inventory VALUES ('FIN-PEN-01', 'School Spirit Pen', 30, 0, 500);
-      INSERT INTO booth_allocated_inventory VALUES ('FIN-KEY-01', 'Backpack Keychain Charm', 20, 0, 500);
-    `);
+    allocateBoothInventory(db, [
+      { sku: 'FIN-PEN-01', title: 'School Spirit Pen', allocatedQuantity: 30, unitPriceCents: 500 },
+      { sku: 'FIN-KEY-01', title: 'Backpack Keychain Charm', allocatedQuantity: 20, unitPriceCents: 500 },
+    ]);
   });
-
-  function processOfflineReconciliationBatch(batchId, sales) {
-    const results = { processed: 0, skippedDuplicates: 0, discrepancies: [] };
-
-    db.exec('BEGIN TRANSACTION');
-    try {
-      for (const sale of sales) {
-        // Check for duplicate offline sale (idempotency)
-        const existing = db.prepare("SELECT * FROM booth_reconciliation_sales WHERE offline_sale_id = ?").get(sale.offlineSaleId);
-        if (existing) {
-          results.skippedDuplicates++;
-          continue;
-        }
-
-        // Check if allocation is exceeded (discrepancy)
-        const item = db.prepare("SELECT * FROM booth_allocated_inventory WHERE sku = ?").get(sale.sku);
-        if (!item || (item.sold_quantity + sale.quantity) > item.allocated_quantity) {
-          results.discrepancies.push({
-            offlineSaleId: sale.offlineSaleId,
-            sku: sale.sku,
-            reason: 'SOLD_EXCEEDS_BOOTH_ALLOCATION',
-          });
-        }
-
-        // Record sale and update inventory
-        db.prepare(`
-          INSERT INTO booth_reconciliation_sales VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(
-          `rec-${sale.offlineSaleId}`,
-          batchId,
-          sale.offlineSaleId,
-          sale.sku,
-          sale.quantity,
-          sale.paymentMethod,
-          sale.amountCents,
-          sale.recordedAt,
-          now
-        );
-
-        db.prepare(`
-          UPDATE booth_allocated_inventory 
-          SET sold_quantity = sold_quantity + ? 
-          WHERE sku = ?
-        `).run(sale.quantity, sale.sku);
-
-        results.processed++;
-      }
-      db.exec('COMMIT');
-    } catch (err) {
-      db.exec('ROLLBACK');
-      throw err;
-    }
-
-    return results;
-  }
 
   test('EVENT-01: Rehearsal records offline cash and card sales accurately', () => {
     const offlineBatch = [
@@ -107,7 +44,7 @@ describe('EVENT-01 & EVENT-02: Booth Sales & Offline Idempotent Reconciliation',
       { offlineSaleId: 'sale-002', sku: 'FIN-KEY-01', quantity: 1, paymentMethod: 'square_pos', amountCents: 500, recordedAt: now - 3000000 },
     ];
 
-    const result = processOfflineReconciliationBatch('batch-oct23', offlineBatch);
+    const result = processBoothReconciliationBatch(db, 'batch-oct23', offlineBatch);
     assert.equal(result.processed, 2);
     assert.equal(result.skippedDuplicates, 0);
     assert.equal(result.discrepancies.length, 0);
@@ -124,15 +61,110 @@ describe('EVENT-01 & EVENT-02: Booth Sales & Offline Idempotent Reconciliation',
     ];
 
     // First sync
-    processOfflineReconciliationBatch('batch-oct23', offlineBatch);
+    processBoothReconciliationBatch(db, 'batch-oct23', offlineBatch);
 
     // Second sync of same offline tally (network retry)
-    const retryResult = processOfflineReconciliationBatch('batch-oct23', offlineBatch);
+    const retryResult = processBoothReconciliationBatch(db, 'batch-oct23', offlineBatch);
     assert.equal(retryResult.processed, 0);
     assert.equal(retryResult.skippedDuplicates, 2, 'Duplicate offline sales skipped idempotently');
 
     const pen = db.prepare("SELECT sold_quantity FROM booth_allocated_inventory WHERE sku = 'FIN-PEN-01'").get();
     assert.equal(pen.sold_quantity, 2, 'Stock remains exactly 2 sold (no double decrement)');
+  });
+});
+
+describe('EVENT-01 & EVENT-02: Full 28-Transaction Santa Fe Fall Festival Fixture & Closeout', () => {
+  let db;
+
+  beforeEach(() => {
+    db = createBoothDb();
+    // Allocate full festival quota from section 2.1 of BOOTH-OPERATIONS-AND-RECONCILIATION.md
+    allocateBoothInventory(db, [
+      { sku: 'FIN-PEN-01', title: 'School Spirit Beadable Pen', allocatedQuantity: 40, unitPriceCents: 500 },
+      { sku: 'FIN-KEY-01', title: 'Backpack Keychain Charm', allocatedQuantity: 30, unitPriceCents: 500 },
+      { sku: 'BTH-SFE-01', title: 'Santa Fe Fall Mini-Kit', allocatedQuantity: 35, unitPriceCents: 600 },
+      { sku: 'MYS-MKR-01', title: 'Mystery Maker Solo Craft Box', allocatedQuantity: 10, unitPriceCents: 1999 },
+    ]);
+  });
+
+  test('Processes complete 28-sale offline batch with accurate cash/card split and stock tallies', () => {
+    const fixturePath = path.join(__dirname, '..', '..', 'docs', 'event', 'fixtures', 'booth-offline-tally-oct23.json');
+    const fixtureData = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
+
+    assert.equal(fixtureData.sales.length, 28);
+
+    const result = processBoothReconciliationBatch(db, fixtureData.batchId, fixtureData.sales);
+
+    assert.equal(result.processed, 28);
+    assert.equal(result.skippedDuplicates, 0);
+    assert.equal(result.discrepancies.length, 0);
+    assert.equal(result.totalGrossCents, 26799, 'Gross revenue must equal $267.99 (26,799 cents)');
+    assert.equal(result.cashGrossCents, 17200, 'Cash revenue must equal $172.00 (17,200 cents)');
+    assert.equal(result.cardGrossCents, 9599, 'Card revenue must equal $95.99 (9,599 cents)');
+
+    // Verify exact unit balances
+    const pen = db.prepare("SELECT sold_quantity, allocated_quantity FROM booth_allocated_inventory WHERE sku = 'FIN-PEN-01'").get();
+    assert.equal(pen.sold_quantity, 19);
+    assert.equal(pen.allocated_quantity, 40);
+
+    const key = db.prepare("SELECT sold_quantity, allocated_quantity FROM booth_allocated_inventory WHERE sku = 'FIN-KEY-01'").get();
+    assert.equal(key.sold_quantity, 13);
+    assert.equal(key.allocated_quantity, 30);
+
+    const mini = db.prepare("SELECT sold_quantity, allocated_quantity FROM booth_allocated_inventory WHERE sku = 'BTH-SFE-01'").get();
+    assert.equal(mini.sold_quantity, 17);
+    assert.equal(mini.allocated_quantity, 35);
+
+    const mys = db.prepare("SELECT sold_quantity, allocated_quantity FROM booth_allocated_inventory WHERE sku = 'MYS-MKR-01'").get();
+    assert.equal(mys.sold_quantity, 1);
+    assert.equal(mys.allocated_quantity, 10);
+  });
+
+  test('Idempotent replay of full 28-sale batch skips all duplicates with zero stock variance', () => {
+    const fixturePath = path.join(__dirname, '..', '..', 'docs', 'event', 'fixtures', 'booth-offline-tally-oct23.json');
+    const fixtureData = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
+
+    // First ingestion
+    processBoothReconciliationBatch(db, fixtureData.batchId, fixtureData.sales);
+
+    // Second ingestion (re-sync / network retry)
+    const replayResult = processBoothReconciliationBatch(db, fixtureData.batchId, fixtureData.sales);
+
+    assert.equal(replayResult.processed, 0, 'Zero new sales processed on replay');
+    assert.equal(replayResult.skippedDuplicates, 28, 'All 28 transactions skipped as duplicates');
+    assert.equal(replayResult.totalGrossCents, 0, 'No double-counted revenue');
+
+    const pen = db.prepare("SELECT sold_quantity FROM booth_allocated_inventory WHERE sku = 'FIN-PEN-01'").get();
+    assert.equal(pen.sold_quantity, 19, 'Sold quantity strictly remains 19 (no double decrement)');
+  });
+
+  test('Reconciles booth closeout cleanly and returns unsold stock to warehouse pool', () => {
+    const fixturePath = path.join(__dirname, '..', '..', 'docs', 'event', 'fixtures', 'booth-offline-tally-oct23.json');
+    const fixtureData = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
+
+    processBoothReconciliationBatch(db, fixtureData.batchId, fixtureData.sales);
+
+    // Physical counts at 8:00 PM close:
+    // PEN: 40 - 19 = 21 remaining
+    // KEY: 30 - 13 = 17 remaining
+    // MINI: 35 - 17 = 18 remaining
+    // MYS: 10 - 1 = 9 remaining
+    const physicalCounts = {
+      'FIN-PEN-01': 21,
+      'FIN-KEY-01': 17,
+      'BTH-SFE-01': 18,
+      'MYS-MKR-01': 9,
+    };
+
+    const closeout = reconcileBoothCloseout(db, fixtureData.batchId, physicalCounts);
+
+    assert.equal(closeout.balanced, true, 'Reconciliation should balance with zero variance');
+    assert.equal(closeout.totalVarianceUnits, 0);
+    assert.equal(closeout.items.length, 4);
+
+    // Verify booth allocation table is cleared
+    const remainingAlloc = db.prepare("SELECT SUM(allocated_quantity) as total FROM booth_allocated_inventory").get();
+    assert.equal(remainingAlloc.total, 0, 'Booth allocation table cleared after return to warehouse');
   });
 });
 

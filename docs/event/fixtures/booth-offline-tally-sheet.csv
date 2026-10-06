@@ -1,0 +1,29 @@
+line_no,offline_sale_id,timestamp_local,sku,item_name,quantity,unit_price_cents,total_amount_cents,payment_method,cash_tendered_cents,change_given_cents,staff_initials,notes
+1,SFE-001,5:05 PM,FIN-PEN-01,School Spirit Beadable Pen,1,500,500,cash,1000,500,PB,Exact change given
+2,SFE-002,5:11 PM,FIN-KEY-01,Backpack Keychain Charm,2,500,1000,cash,1000,0,PB,2 keychains for $10
+3,SFE-003,5:17 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,2,500,1000,square_pos,1000,0,PB,Festival special 2 for $10
+4,SFE-004,5:24 PM,FIN-PEN-01,School Spirit Beadable Pen,2,500,1000,cash,2000,1000,PB,Rose gold and silver
+5,SFE-005,5:30 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,1,600,600,cash,1000,400,PB,Single mini kit
+6,SFE-006,5:37 PM,FIN-KEY-01,Backpack Keychain Charm,1,500,500,square_pos,500,0,PB,Daisy focal
+7,SFE-007,5:45 PM,FIN-PEN-01,School Spirit Beadable Pen,3,500,1500,cash,2000,500,PB,Family purchase (3 pens)
+8,SFE-008,5:53 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,2,500,1000,cash,1000,0,PB,2 for $10 deal
+9,SFE-009,6:00 PM,FIN-KEY-01,Backpack Keychain Charm,2,500,1000,square_pos,1000,0,PB,Hourly check 1
+10,SFE-010,6:09 PM,MYS-MKR-01,Mystery Maker Solo Craft Box,1,1999,1999,square_pos,1999,0,PB,Demo unit sold from display
+11,SFE-011,6:17 PM,FIN-PEN-01,School Spirit Beadable Pen,2,500,1000,cash,1000,0,PB,Exact cash
+12,SFE-012,6:24 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,4,500,2000,cash,2000,0,PB,4 mini kits
+13,SFE-013,6:32 PM,FIN-KEY-01,Backpack Keychain Charm,1,500,500,cash,500,0,PB,Exact $5 bill
+14,SFE-014,6:39 PM,FIN-PEN-01,School Spirit Beadable Pen,2,500,1000,square_pos,1000,0,PB,Offline reader queued
+15,SFE-015,6:46 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,2,500,1000,square_pos,1000,0,PB,Offline reader queued
+16,SFE-016,6:53 PM,FIN-PEN-01,School Spirit Beadable Pen,1,500,500,cash,500,0,PB,Exact
+17,SFE-017,7:00 PM,FIN-KEY-01,Backpack Keychain Charm,3,500,1500,cash,2000,500,PB,Hourly check 2
+18,SFE-018,7:06 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,1,600,600,square_pos,600,0,PB,Single mini kit
+19,SFE-019,7:13 PM,FIN-PEN-01,School Spirit Beadable Pen,4,500,2000,cash,2000,0,PB,Group purchase
+20,SFE-020,7:19 PM,FIN-KEY-01,Backpack Keychain Charm,1,500,500,cash,500,0,PB,Exact
+21,SFE-021,7:25 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,2,500,1000,cash,1000,0,PB,2 for $10
+22,SFE-022,7:31 PM,FIN-PEN-01,School Spirit Beadable Pen,2,500,1000,square_pos,1000,0,PB,Offline reader
+23,SFE-023,7:37 PM,FIN-KEY-01,Backpack Keychain Charm,2,500,1000,square_pos,1000,0,PB,Offline reader
+24,SFE-024,7:43 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,2,500,1000,cash,1000,0,PB,Pumpkin charms
+25,SFE-025,7:47 PM,FIN-PEN-01,School Spirit Beadable Pen,1,500,500,cash,500,0,PB,Last 15 min rush
+26,SFE-026,7:50 PM,FIN-KEY-01,Backpack Keychain Charm,1,500,500,square_pos,500,0,PB,Offline card
+27,SFE-027,7:53 PM,BTH-SFE-01,Santa Fe Fall Mini-Kit,1,600,600,cash,1000,400,PB,$10 bill, gave $4
+28,SFE-028,7:55 PM,FIN-PEN-01,School Spirit Beadable Pen,1,500,500,cash,500,0,PB,Closing sale
