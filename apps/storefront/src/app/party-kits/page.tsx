@@ -5,11 +5,39 @@ import {
   Accordion,
 } from '@beadsily/ui';
 import { KitConfigurator } from '../../components/KitConfigurator';
+import { generateProductSchema } from '../../lib/seo';
 
 export const metadata = {
   title: '15-Guest Party Kits — BeadsILY Direct-to-Consumer',
   description:
     'Complete craft party kits for 15+ guests. Each attendee crafts 3 finished keepsakes (pen, bracelet, keychain) for 45 total projects. Free nationwide shipping.',
+  alternates: {
+    canonical: 'https://beadsily.com/party-kits',
+  },
+  openGraph: {
+    title: '15-Guest Party Kits — BeadsILY Direct-to-Consumer',
+    description:
+      'Complete craft party kits for 15+ guests. 45 finished keepsakes per kit with free nationwide shipping.',
+    url: 'https://beadsily.com/party-kits',
+    siteName: 'BeadsILY',
+    images: [
+      {
+        url: 'https://beadsily.com/brand/beadsily-logo.svg',
+        width: 1200,
+        height: 630,
+        alt: 'BeadsILY 15-Guest Party Kits',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '15-Guest Party Kits — BeadsILY Direct-to-Consumer',
+    description:
+      'Complete craft party kits for 15+ guests. 45 finished keepsakes per kit with free nationwide shipping.',
+    images: ['https://beadsily.com/brand/beadsily-logo.svg'],
+  },
 };
 
 export default function PartyKitsPage() {
@@ -99,6 +127,25 @@ export default function PartyKitsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16 flex flex-col gap-14">
+      {/* SSR Schema.org Product & Offer Structured Data (SEO-01) */}
+      {kitItems.map((kit) => {
+        const schema = generateProductSchema({
+          title: kit.title,
+          description: kit.description,
+          sku: kit.id,
+          priceCents: kit.priceInCents,
+          inStock: kit.stockStatus === 'in_stock',
+          slug: kit.slug,
+        });
+        return (
+          <script
+            key={`schema-${kit.id}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        );
+      })}
+
       {/* Intro Header */}
       <div className="max-w-3xl">
         <Badge variant="pink" size="sm" className="mb-2">
