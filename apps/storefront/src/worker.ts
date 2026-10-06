@@ -99,8 +99,8 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
       min-width: 44px;
     }
     .teaser-bg {
-      background: linear-gradient(180deg, rgba(23, 20, 22, 0.80) 0%, rgba(23, 20, 22, 0.65) 45%, rgba(23, 20, 22, 0.88) 100%),
-                  url('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=2000&q=85') center/cover no-repeat fixed;
+      background: linear-gradient(180deg, rgba(23, 20, 22, 0.72) 0%, rgba(23, 20, 22, 0.45) 45%, rgba(23, 20, 22, 0.85) 100%),
+                  url('/images/beadsily-craft-beads-flatlay.jpg') center/cover no-repeat fixed;
     }
   </style>
 </head>
@@ -111,18 +111,16 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   </aside>
 
   <!-- Navigation Header -->
-  <header class="${isTeaser ? 'border-b border-white/10 bg-charcoal-950/70 backdrop-blur sticky top-0 z-50' : 'border-b border-cream-200 bg-white/80 backdrop-blur sticky top-0 z-50'}">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 group">
-        <span class="text-2xl font-black tracking-tight">
-          <span class="${isTeaser ? 'text-white' : 'text-charcoal-950'}">BEADS</span><span class="text-pink-500">ILY</span>
-        </span>
-        <span class="font-display tracking-widest uppercase text-[11px] font-semibold ${isTeaser ? 'text-cream-200 bg-white/10 border-white/20' : 'text-charcoal-950 bg-pink-50 border-pink-500/20'} px-2.5 py-0.5 rounded-full border">Bead Bar</span>
+  <header class="border-b border-cream-200/80 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <img src="/brand/beadsily-wordmark-color.svg" alt="BEADSILY" class="h-6 md:h-7 w-auto transition-transform group-hover:scale-[1.02]" />
+        <span class="font-display tracking-widest uppercase text-[11px] font-semibold text-charcoal-950 bg-pink-50 border-pink-500/20 px-2.5 py-0.5 rounded-full border shadow-2xs">Bead Bar</span>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold ${isTeaser ? 'text-cream-100' : 'text-charcoal-900'}">
-        <a href="/party-kits" class="hover:text-pink-400 transition-colors ${currentPath === '/party-kits' ? 'text-pink-400 font-bold' : ''}">15-Guest Party Kits</a>
-        <a href="/mystery-boxes" class="hover:text-pink-400 transition-colors ${currentPath === '/mystery-boxes' ? 'text-pink-400 font-bold' : ''}">Curated Mystery Boxes</a>
-        <a href="/party-kits#faq" class="hover:text-pink-400 transition-colors">Host Guide & FAQ</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-charcoal-900">
+        <a href="/party-kits" class="hover:text-pink-600 transition-colors ${currentPath === '/party-kits' ? 'text-pink-600 font-bold' : ''}">15-Guest Party Kits</a>
+        <a href="/mystery-boxes" class="hover:text-pink-600 transition-colors ${currentPath === '/mystery-boxes' ? 'text-pink-600 font-bold' : ''}">Curated Mystery Boxes</a>
+        <a href="/party-kits#faq" class="hover:text-pink-600 transition-colors">Host Guide & FAQ</a>
       </nav>
       <div class="flex items-center gap-3">
         <a href="/#subscribe" class="btn-primary inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm transition-transform active:scale-95 shadow-sm">
@@ -538,6 +536,10 @@ function renderCheckoutPage(url: URL): string {
   return getHtmlLayout('Secure Checkout', content, '/checkout');
 }
 
+const BRAND_WORDMARK_COLOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 200" width="870" height="200"><title>BEADSILY wordmark color</title><desc>BEADSILY custom vector artwork. Outlined lettering; no linked images or fonts.</desc><g transform="translate(35 35) rotate(0) scale(1)"><g transform="translate(0 0) rotate(0) scale(1.1173184357541899)" id="wordmark"><g transform="translate(0 0) rotate(0) scale(1)" id="letter-0-B"><path d="M39 110 C29 110 23 104 27 97 C30 91 37 93 37 98 C37 102 43 102 43 95 L43 24 C43 13 38 9 29 9 C19 9 12 14 12 22 C12 29 19 31 21 25 C22 21 28 22 28 28 C28 39 14 43 6 36 C-5 25 3 6 21 2 C33 -1 46 0 58 0 L74 0 C97 0 109 11 109 28 C109 40 100 48 89 51 C106 55 116 65 116 80 C116 100 100 110 76 110 Z M63 10 L63 46 L73 46 C85 46 91 39 91 28 C91 17 85 10 73 10 Z M63 56 L63 99 L76 99 C90 99 97 92 97 79 C97 64 90 56 76 56 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(123 10) rotate(0) scale(1)" id="letter-1-E"><path d="M3 0 L68 0 L70 20 C70 23 66 24 64 20 C59 10 56 8 41 8 L29 8 L29 44 L40 44 C48 44 50 39 52 33 C53 30 57 30 57 34 L57 62 C57 66 53 66 52 62 C50 55 48 52 40 52 L29 52 L29 91 L44 91 C56 91 63 87 68 77 C70 73 74 74 73 78 L68 100 L3 100 C0 100 0 96 3 95 C10 94 11 91 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(204 10) rotate(0) scale(1)" id="letter-2-A"><path d="M43 0 C45 -2 49 -2 50 2 L85 86 C88 93 90 95 95 96 C98 97 97 100 94 100 L61 100 C58 100 58 96 61 95 C67 94 68 92 65 85 L60 71 L26 71 L21 85 C19 92 21 94 27 95 C30 96 30 100 27 100 L3 100 C0 100 0 96 3 95 C9 94 12 89 15 81 Z M30 62 L57 62 L43 26 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(307 10) rotate(0) scale(1)" id="letter-3-D"><path d="M3 0 L41 0 C75 0 94 17 94 49 C94 80 76 100 42 100 L3 100 C0 100 0 96 3 95 C10 94 11 91 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z M30 9 L30 90 L41 90 C64 90 74 77 74 49 C74 21 64 9 41 9 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(408 11.923076923076923) scale(1 0.9615384615384616)" id="letter-4-S"><path d="M70 3 L72 25 C73 29 68 30 66 26 C59 12 51 8 40 8 C27 8 21 14 21 23 C21 33 32 38 45 43 C64 50 76 58 76 74 C76 92 61 102 40 102 C29 102 20 99 14 96 C11 95 9 97 8 100 L3 100 L1 74 C1 70 5 69 7 73 C15 88 25 94 39 94 C51 94 60 89 60 78 C60 68 49 63 35 58 C15 50 5 42 5 27 C5 9 20 -2 40 -2 C48 -2 55 0 62 3 C65 4 66 2 67 0 Z" fill="#171416" fill-rule="evenodd"></path></g><g transform="translate(492 10) rotate(0) scale(1)" id="letter-5-I"><path d="M3 0 L37 0 C40 0 40 4 37 5 C30 6 29 8 29 15 L29 85 C29 92 30 94 37 95 C40 96 40 100 37 100 L3 100 C0 100 0 96 3 95 C10 94 11 92 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g><g transform="translate(539 10) rotate(0) scale(1)" id="letter-6-L"><path d="M3 0 L37 0 C40 0 40 4 37 5 C30 6 29 8 29 15 L29 91 L42 91 C55 91 61 87 67 75 C69 71 73 72 72 76 L68 100 L3 100 C0 100 0 96 3 95 C10 94 11 92 11 85 L11 15 C11 8 10 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g><g transform="translate(619 10) rotate(0) scale(1)" id="letter-7-Y"><path d="M3 0 L37 0 C40 0 40 4 37 5 C31 6 30 8 33 13 L54 48 L74 14 C78 8 77 6 70 5 C67 4 67 0 70 0 L94 0 C97 0 97 4 94 5 C87 6 85 10 81 17 L60 53 L60 85 C60 92 62 94 69 95 C72 96 72 100 69 100 L32 100 C29 100 29 96 32 95 C39 94 41 92 41 85 L41 57 L16 16 C12 9 9 6 3 5 C0 4 0 0 3 0 Z" fill="#FF689D" fill-rule="evenodd"></path></g></g></g></svg>`;
+
+const BRAND_HEART_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4210 115 200 200" width="100%" height="100%"><title>BeadsILY Heart Icon</title><desc>BeadsILY Official Heart Icon with specular highlight</desc><g id="heart-icon"><path d="M 4308.352 302.398 C 4288.191 288.000, 4224.832 247.680, 4224.832 198.719 C 4224.832 144.000, 4282.430 129.602, 4308.352 175.680 C 4334.270 129.602, 4391.871 144.000, 4391.871 198.719 C 4391.871 247.680, 4328.512 288.000, 4308.352 302.398 Z" fill="#FF689D" stroke="#D93D75" stroke-width="6" stroke-linejoin="round"/><path d="M 4242.109 201.602 C 4242.109 161.281, 4279.551 149.762, 4296.832 181.441" fill="none" stroke="#FFFFFF" stroke-width="10.656" stroke-linecap="round"/><path d="M 4256.512 250.559 C 4273.793 270.719, 4293.953 285.121, 4308.352 293.762 C 4331.391 279.359, 4360.191 259.199, 4374.590 239.039" fill="none" stroke="#D93D75" stroke-width="6.912" stroke-linecap="round"/></g></svg>`;
+
 export default {
   async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
     try {
@@ -560,7 +562,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.2.1',
+          version: '1.2.2',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
@@ -569,6 +571,41 @@ export default {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
         });
+      }
+
+      // 3. Static Brand Assets Serving
+      if (url.pathname === '/brand/beadsily-wordmark-color.svg') {
+        return new Response(BRAND_WORDMARK_COLOR_SVG, {
+          status: 200,
+          headers: {
+            'Content-Type': 'image/svg+xml; charset=utf-8',
+            'Cache-Control': 'public, max-age=604800, immutable',
+          },
+        });
+      }
+      if (url.pathname === '/brand/beadsily-heart-icon.svg') {
+        return new Response(BRAND_HEART_ICON_SVG, {
+          status: 200,
+          headers: {
+            'Content-Type': 'image/svg+xml; charset=utf-8',
+            'Cache-Control': 'public, max-age=604800, immutable',
+          },
+        });
+      }
+
+      // 4. Static Media & Background Images (via Cloudflare R2)
+      if (url.pathname.startsWith('/images/') || url.pathname.startsWith('/media/')) {
+        const filename = url.pathname.replace(/^\/(images|media)\//, '');
+        if (env.MEDIA) {
+          const object = await env.MEDIA.get(filename);
+          if (object) {
+            const headers = new Headers();
+            object.writeHttpMetadata(headers);
+            headers.set('etag', object.httpEtag);
+            headers.set('Cache-Control', 'public, max-age=604800, immutable');
+            return new Response(object.body, { headers });
+          }
+        }
       }
 
       // 3. API Routes

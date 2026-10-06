@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.2] - 2026-10-06
+
+### Authentic Craft Bead Flatlay Backdrop & Official Vector Header Wordmark
+*Replaced stock photo with bespoke BeadsILY craft bead flatlay background and integrated official beadsily-wordmark-color.svg in the global storefront header per owner directive.*
+
+#### Added
+- **Official Vector Header Logo (`beadsily-wordmark-color.svg`):**
+  - Integrated official outlined vector logo directly into the navigation header (`/brand/beadsily-wordmark-color.svg`).
+  - Preserved the Cinzel uppercase "Bead Bar" pill badge alongside the wordmark with soft black outlines and bubble pink accents.
+  - Implemented edge Worker route handler serving brand SVGs directly with HTTP caching headers (`image/svg+xml`).
+- **Authentic Craft Bead Flatlay Photographic Backdrop:**
+  - Generated and deployed authentic flat-lay photography featuring actual BeadsILY supplies: smooth pastel pink silicone beads, lustrous pearl cream beads, glossy black beads, gold star charms, pink heart beads, metallic rose gold pen rods, and lobster clasps.
+  - Stored locally and uploaded to remote Cloudflare R2 bucket `beadsily-media-prod` (`beadsily-craft-beads-flatlay.jpg`).
+  - Configured Worker media streaming endpoint (`/images/*` and `/media/*`) with ETag and immutable cache headers.
+
+#### Changed
+- **Teaser Page Backdrop:**
+  - Replaced Unsplash jewelry/brooch image with authentic BeadsILY craft bead flatlay backdrop under on-brand contrast gradient overlay.
+
+---
+
 ## [1.2.1] - 2026-10-06
 
 ### Custom Domain Routing & WWW Subdomain Resolution
