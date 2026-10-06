@@ -40,14 +40,12 @@ CREATE TABLE components (
   unit_of_measure TEXT NOT NULL DEFAULT 'piece',
   cost_per_unit_cents INTEGER NOT NULL,
   stock_on_hand INTEGER NOT NULL DEFAULT 0,
-  stock_reserved INTEGER NOT NULL DEFAULT 0,
+  stock_reserved INTEGER NOT NULL DEFAULT 0 CHECK (stock_reserved >= 0),
   safety_stock INTEGER NOT NULL DEFAULT 0,
+  CONSTRAINT chk_available_stock CHECK ((stock_on_hand - stock_reserved - safety_stock) >= 0),
   bin_location TEXT,
   supplier_ref TEXT,
-  updated_at INTEGER NOT NULL,
-  -- Toby QA Mandate: Database-enforced atomic invariant
-  CHECK (stock_reserved >= 0),
-  CHECK ((stock_on_hand - stock_reserved - safety_stock) >= 0)
+  updated_at INTEGER NOT NULL
 );
 
 -- Products & Finished Goods
@@ -114,7 +112,7 @@ A standard 15-guest BeadsILY Party Kit guarantees **45 finished projects** (3 pe
 
 ## 4. Atomic Multi-Component Reservation Algorithm (INV-01, INV-02)
 
-Following Toby's QA review, reservation atomicity is enforced directly at the SQLite engine level using a `CHECK` constraint:
+Following Toby's QA review and Oscar's D1 schema verification, reservation atomicity is enforced directly at the SQLite engine level using a `CHECK` constraint:
 
 ```sql
 -- D1 Batch Execution: env.DB.batch([stmt1, stmt2, ...])
