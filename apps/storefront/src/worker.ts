@@ -462,7 +462,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.1.2',
+          version: '1.1.3',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.3] - 2026-10-06
+
+### Canva Graphics Layout Briefs & Asset Specifications
+*Delivered comprehensive Canva design briefs, exact canvas pixel dimensions, color swatch guides, and copy blocks for Korry and the design team.*
+
+#### Added
+- **Canva Design Briefs & Specifications (`docs/brand/CANVA-GRAPHICS-LAYOUT-BRIEFS.md`):**
+  - Authored complete design briefs across 5 production formats:
+    1. OpenGraph / Social Share Card (`1200 x 630 px`).
+    2. Official Festival Canopy Banner (`96 x 24 inches` / `8 x 2 ft` at print resolution).
+    3. Storefront Desktop & Square Hero CTA Banners (`1920 x 1080 px` and `1080 x 1080 px`).
+    4. Santa Fe Fall Festival Announcement Story / Reel / Handout Flyer (`1080 x 1920 px`).
+    5. Tabletop Assembly & Host Quick-Start Card (`5 x 7 inches` double-sided printable).
+  - Outlined exact Canva Brand Kit hex codes, font pairings, safe zones, and customer-tested copy blocks.
+
+---
+
 ## [1.1.2] - 2026-10-06
 
 ### Official Brand Guidelines Integration & Typography Styling
