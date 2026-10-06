@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "beadsily-storefront",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "beadsily-production-d1",
+      "database_id": "9909a98e-0214-4473-a782-a5f736c28f6a"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "beadsily-media-prod"
+    }
+  ],
+  "alias": {
+    "@beadsily/db": "../../packages/db/src/index.mjs",
+    "@beadsily/payments": "../../packages/payments/src/index.mjs"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-10-06
+
+### Cloudflare Edge Live Deployment & Production Infrastructure
+*Live deployment verified on Cloudflare Workers edge runtime with D1 relational database and R2 object storage bindings.*
+
+#### Added
+- **Cloudflare Edge Live Deployment:**
+  - Implemented edge Worker runtime in [`apps/storefront/src/worker.ts`](file:///C:/repositories/beadsily-com/apps/storefront/src/worker.ts) using standard Cloudflare Workers `ExportedHandler<Env>`.
+  - Configured [`apps/storefront/wrangler.jsonc`](file:///C:/repositories/beadsily-com/apps/storefront/wrangler.jsonc) with Cloudflare D1 database binding (`beadsily-production-d1`, UUID: `9909a98e-0214-4473-a782-a5f736c28f6a`) and Cloudflare R2 media storage binding (`beadsily-media-prod`).
+  - Added monorepo esbuild path aliases in `wrangler.jsonc` resolving `@beadsily/db` and `@beadsily/payments` workspace packages cleanly at bundle time.
+  - Deployed worker to production edge URL: [`https://beadsily-storefront.razoraz.workers.dev`](https://beadsily-storefront.razoraz.workers.dev).
+  - Verified edge health probe: `GET /health` returning status `healthy`, version `1.1.0`, runtime `cloudflare-workers-edge`, and active D1/R2 connectivity.
+  - Verified live D1 inventory queries: `GET /api/mystery/catalog` returning all 3 tiers with live stock availability directly from production D1.
+- **Production Database & Storage Provisioning:**
+  - Provisioned Cloudflare D1 relational database `beadsily-production-d1` (Account: `29e8d505f034256217139dc5c5b731c2`).
+  - Remotely executed schema migrations `0001_initial_schema.sql` and `0002_seed_launch_inventory.sql`, verifying 42 physical component SKUs, safety stock constraints, and launch BOM definitions.
+  - Provisioned Cloudflare R2 media bucket `beadsily-media-prod` with standard storage class.
+
+---
+
 ## [1.0.0] - 2026-10-06
 
 ### Initial Production Release Candidate (Certified for Launch)

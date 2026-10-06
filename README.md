@@ -1,6 +1,6 @@
 # BeadsILY Direct-to-Consumer Commerce Platform
 
-[![Release Version](https://img.shields.io/badge/version-1.0.0-pink.svg)](./package.json)
+[![Release Version](https://img.shields.io/badge/version-1.1.0-pink.svg)](./package.json)
 [![Acceptance Tests](https://img.shields.io/badge/tests-163%2F163%20passing-brightgreen.svg)](./tests/run-all-acceptance-tests.mjs)
 [![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.2%20AA%20Certified-blue.svg)](./packages/ui/src/tokens/colors.ts)
 [![Security Audited](https://img.shields.io/badge/security-Dwight%20Certified%20(43%2F43%20tests)-orange.svg)](./packages/auth/)
@@ -9,7 +9,8 @@
 **Target Soft Launch:** Santa Fe Elementary Fall Festival, Friday October 23, 2026, 5–8 p.m. America/Phoenix  
 **Corporate Entity:** BeadsILY (a business unit of Nelsons US LLC)  
 **Primary Canonical Host:** `https://beadsily.com` (with 301 permanent redirects for `beadsilly.com` and `www.beadsily.com`)  
-**Architecture Topology:** Cloudflare Workers Edge (`vinext` / Next.js) + Cloudflare D1 Relational DB + Cloudflare R2 Media + Stripe Embedded Checkout  
+**Live Edge Deployment:** [`https://beadsily-storefront.razoraz.workers.dev`](https://beadsily-storefront.razoraz.workers.dev)  
+**Architecture Topology:** Cloudflare Workers Edge (`apps/storefront`) + Cloudflare D1 Relational DB (`beadsily-production-d1`) + Cloudflare R2 Media (`beadsily-media-prod`) + Stripe Embedded Checkout  
 
 ---
 

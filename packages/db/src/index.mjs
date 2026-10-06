@@ -4,3 +4,4 @@
 
 export * from './inventory.mjs';
 export * from './booth.mjs';
+export * from './mystery.mjs';
