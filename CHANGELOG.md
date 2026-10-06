@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-10-06
+
+### Teaser Landing Page & Cloudflare D1 Email Subscription Engine
+*Launched full-screen on-brand teaser landing page on root apex host with email updates subscription linked to Cloudflare D1 database per owner directive.*
+
+#### Added
+- **Full-Screen On-Brand Teaser Landing Page (`GET /`):**
+  - Designed full-screen background using high-resolution craft photography with on-brand gradient overlay (Soft Black `#171416`, Pearl Cream `#FFF8EF`, Bubble Pink `#FF689D`).
+  - Added frosted glass container with prominent `BEADSILY` wordmark, Cinzel tracking, and campaign line *"Something Lovely is In the Making — A little charm. A lot of heart."*
+  - Added Fall Festival announcement callout: *"Santa Fe Elementary Fall Festival • Friday, Oct 23, 2026 (5–8 PM MST)"*.
+  - Added interactive VIP email subscription form with real-time feedback and state persistence (`/?subscribed=1#subscribe`).
+  - Added launch preview cards linking to `/party-kits` and `/mystery-boxes` for early shoppers and reviewers.
+- **Cloudflare D1 Email Subscription Database:**
+  - Authored and applied remote migration [`migrations/0003_email_subscribers.sql`](file:///C:/repositories/beadsily-com/migrations/0003_email_subscribers.sql) creating `email_subscribers` table with indexing on `beadsily-production-d1`.
+  - Implemented `POST /api/subscribe` supporting both JSON payload and HTML form submissions with client metadata tracking (country, user agent, timestamp).
+
+---
+
 ## [1.1.3] - 2026-10-06
 
 ### Canva Graphics Layout Briefs & Asset Specifications

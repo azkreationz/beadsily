@@ -16,7 +16,7 @@ export interface Env {
   SESSION_SECRET?: string;
 }
 
-function getHtmlLayout(title: string, bodyContent: string, currentPath: string = '/'): string {
+function getHtmlLayout(title: string, bodyContent: string, currentPath: string = '/', isTeaser: boolean = false): string {
   const jsonLdOrg = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -98,31 +98,35 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
       min-height: 44px;
       min-width: 44px;
     }
+    .teaser-bg {
+      background: linear-gradient(180deg, rgba(23, 20, 22, 0.80) 0%, rgba(23, 20, 22, 0.65) 45%, rgba(23, 20, 22, 0.88) 100%),
+                  url('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=2000&q=85') center/cover no-repeat fixed;
+    }
   </style>
 </head>
-<body class="bg-cream-100 text-charcoal-950 font-sans antialiased min-h-screen flex flex-col">
+<body class="${isTeaser ? 'bg-charcoal-950 text-cream-100' : 'bg-cream-100 text-charcoal-950'} font-sans antialiased min-h-screen flex flex-col">
   <!-- Top Announcement Bar -->
-  <aside aria-label="Announcement" class="bg-charcoal-950 text-cream-100 text-xs py-2 px-4 text-center font-medium">
+  <aside aria-label="Announcement" class="bg-charcoal-950 text-cream-100 text-xs py-2 px-4 text-center font-medium border-b border-white/10">
     ✨ Soft Launch Event: Santa Fe Elementary Fall Festival (Friday, Oct 23, 2026, 5–8 PM Arizona MST) • Pre-order Party Kits Below
   </aside>
 
   <!-- Navigation Header -->
-  <header class="border-b border-cream-200 bg-white/80 backdrop-blur sticky top-0 z-50">
+  <header class="${isTeaser ? 'border-b border-white/10 bg-charcoal-950/70 backdrop-blur sticky top-0 z-50' : 'border-b border-cream-200 bg-white/80 backdrop-blur sticky top-0 z-50'}">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 group">
         <span class="text-2xl font-black tracking-tight">
-          <span class="text-charcoal-950">BEADS</span><span class="text-pink-500">ILY</span>
+          <span class="${isTeaser ? 'text-white' : 'text-charcoal-950'}">BEADS</span><span class="text-pink-500">ILY</span>
         </span>
-        <span class="font-display tracking-widest uppercase text-[11px] font-semibold text-charcoal-950 bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-500/20">Bead Bar</span>
+        <span class="font-display tracking-widest uppercase text-[11px] font-semibold ${isTeaser ? 'text-cream-200 bg-white/10 border-white/20' : 'text-charcoal-950 bg-pink-50 border-pink-500/20'} px-2.5 py-0.5 rounded-full border">Bead Bar</span>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-charcoal-900">
-        <a href="/party-kits" class="hover:text-pink-600 transition-colors ${currentPath === '/party-kits' ? 'text-pink-600 font-bold' : ''}">15-Guest Party Kits</a>
-        <a href="/mystery-boxes" class="hover:text-pink-600 transition-colors ${currentPath === '/mystery-boxes' ? 'text-pink-600 font-bold' : ''}">Curated Mystery Boxes</a>
-        <a href="/#faq" class="hover:text-pink-600 transition-colors">Host Guide & FAQ</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold ${isTeaser ? 'text-cream-100' : 'text-charcoal-900'}">
+        <a href="/party-kits" class="hover:text-pink-400 transition-colors ${currentPath === '/party-kits' ? 'text-pink-400 font-bold' : ''}">15-Guest Party Kits</a>
+        <a href="/mystery-boxes" class="hover:text-pink-400 transition-colors ${currentPath === '/mystery-boxes' ? 'text-pink-400 font-bold' : ''}">Curated Mystery Boxes</a>
+        <a href="/party-kits#faq" class="hover:text-pink-400 transition-colors">Host Guide & FAQ</a>
       </nav>
       <div class="flex items-center gap-3">
-        <a href="/party-kits" class="btn-primary inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm transition-transform active:scale-95 shadow-sm">
-          Customize Kit ($189)
+        <a href="/#subscribe" class="btn-primary inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm transition-transform active:scale-95 shadow-sm">
+          Join VIP List
         </a>
       </div>
     </div>
@@ -175,6 +179,100 @@ function getHtmlLayout(title: string, bodyContent: string, currentPath: string =
   </footer>
 </body>
 </html>`;
+}
+
+function renderTeaserPage(url: URL): string {
+  const isSubscribed = url.searchParams.get('subscribed') === '1';
+
+  const content = `
+    <!-- Teaser Full-Screen Hero -->
+    <div class="teaser-bg relative min-h-[calc(100vh-140px)] flex items-center justify-center py-16 px-4">
+      <div class="max-w-3xl w-full mx-auto space-y-8 text-center relative z-10">
+        
+        <!-- Eyebrow Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase bg-pink-500/20 text-pink-300 border border-pink-500/40 font-display">
+          💖 A little charm. A lot of heart.
+        </div>
+
+        <!-- Main Headline -->
+        <div class="space-y-4">
+          <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-tight">
+            Something Lovely is <br/>
+            <span class="text-pink-400">In the Making.</span>
+          </h1>
+          <p class="text-base sm:text-xl text-cream-100 max-w-2xl mx-auto leading-relaxed font-normal">
+            The modern bead bar for playful self-expression. High-grade 15-guest craft party kits (45 keepsakes guaranteed), curated mystery craft boxes, and custom accessories.
+          </p>
+        </div>
+
+        <!-- Soft Launch Event Pill -->
+        <div class="inline-flex flex-col sm:flex-row items-center gap-2 bg-charcoal-950/80 border border-pink-500/30 rounded-2xl px-6 py-3 text-xs sm:text-sm text-cream-100 shadow-xl backdrop-blur-md">
+          <span class="text-amber-400 font-bold">✨ Soft Launch Event:</span>
+          <span>Santa Fe Elementary Fall Festival • Friday, Oct 23, 2026 (5–8 PM MST)</span>
+        </div>
+
+        <!-- Email Subscription Box -->
+        <div id="subscribe" class="bg-charcoal-950/70 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-xl mx-auto shadow-2xl space-y-4">
+          <div class="space-y-1">
+            <h2 class="text-lg sm:text-xl font-bold text-white">Be the First to Know</h2>
+            <p class="text-xs sm:text-sm text-neutral-300">
+              Subscribe for VIP launch access, opening announcements, and exclusive party kit perks.
+            </p>
+          </div>
+
+          ${isSubscribed ? `
+            <div class="bg-emerald-950/80 border border-emerald-500/50 rounded-2xl p-4 text-emerald-200 text-sm font-semibold shadow-inner">
+              🎉 You're on the VIP list! Thank you for subscribing. We'll send you early access and launch updates before our October 23 opening.
+            </div>
+          ` : `
+            <form method="POST" action="/api/subscribe" class="flex flex-col sm:flex-row gap-3 pt-2">
+              <input 
+                type="email" 
+                name="email" 
+                required 
+                placeholder="Enter your email address..." 
+                class="px-5 py-3.5 rounded-2xl border border-white/20 bg-white/95 text-charcoal-950 placeholder-neutral-500 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 flex-grow shadow-lg"
+              />
+              <button 
+                type="submit" 
+                class="btn-primary px-7 py-3.5 rounded-2xl text-sm font-bold shadow-lg transition-transform active:scale-95 whitespace-nowrap"
+              >
+                Subscribe for Updates
+              </button>
+            </form>
+          `}
+
+          <p class="text-[11px] text-neutral-400">
+            Strictly opening announcements and early kit reservations. Unsubscribe anytime.
+          </p>
+        </div>
+
+        <!-- Pre-Order & Collection Previews -->
+        <div class="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+          <a href="/party-kits" class="group bg-white/5 hover:bg-white/10 border border-white/15 hover:border-pink-400/50 rounded-2xl p-5 transition-all backdrop-blur-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Launch Preview</span>
+              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">From $189 →</span>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-pink-300 transition-colors mt-1">15-Guest Party Kits</h3>
+            <p class="text-xs text-neutral-300 mt-1">45 keepsakes guaranteed (pens, keychains, bracelets) with full host guide & spares buffer.</p>
+          </a>
+
+          <a href="/mystery-boxes" class="group bg-white/5 hover:bg-white/10 border border-white/15 hover:border-amber-400/50 rounded-2xl p-5 transition-all backdrop-blur-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Curated Keepsakes</span>
+              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">From $28 →</span>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors mt-1">Curated Mystery Boxes</h3>
+            <p class="text-xs text-neutral-300 mt-1">Prepacked physical units with guaranteed project counts (3 or 6 projects). Zero subscriptions.</p>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  return getHtmlLayout('Craft Party Kits & Modern Bead Bar (Coming Soon)', content, '/', true);
 }
 
 function renderHomePage(): string {
@@ -462,7 +560,7 @@ export default {
         return new Response(JSON.stringify({
           status: 'healthy',
           service: 'beadsily-storefront',
-          version: '1.1.3',
+          version: '1.2.0',
           runtime: 'cloudflare-workers-edge',
           d1: env.DB ? 'connected' : 'binding_missing',
           r2: env.MEDIA ? 'connected' : 'binding_missing',
@@ -531,8 +629,64 @@ export default {
         }
       }
 
+      if (url.pathname === '/api/subscribe' && request.method === 'POST') {
+        try {
+          let email = '';
+          const contentType = request.headers.get('content-type') || '';
+          if (contentType.includes('application/json')) {
+            const body: any = await request.json();
+            email = (body.email || '').trim().toLowerCase();
+          } else {
+            const formData = await request.formData();
+            email = (formData.get('email') || '').toString().trim().toLowerCase();
+          }
+
+          if (!email || !email.includes('@') || email.length < 5) {
+            return new Response(JSON.stringify({ error: 'Please enter a valid email address.' }), {
+              status: 400,
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
+
+          const id = 'sub_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+          const now = Date.now();
+          const ipCountry = request.headers.get('cf-ipcountry') || 'US';
+          const userAgent = request.headers.get('user-agent') || '';
+
+          if (env.DB) {
+            await env.DB.prepare(
+              'INSERT INTO email_subscribers (id, email, source, confirmed, created_at, ip_country, user_agent) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT(email) DO NOTHING'
+            ).bind(id, email, 'teaser_landing_page', 0, now, ipCountry, userAgent).run();
+          }
+
+          if (contentType.includes('application/json')) {
+            return new Response(JSON.stringify({ success: true, message: "You're on the list!" }), {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
+
+          return new Response(null, {
+            status: 302,
+            headers: { Location: '/?subscribed=1#subscribe' },
+          });
+        } catch (e: any) {
+          return new Response(null, {
+            status: 302,
+            headers: { Location: '/?subscribed=1#subscribe' },
+          });
+        }
+      }
+
       // 4. Storefront HTML Routes
       if (url.pathname === '/') {
+        return new Response(renderTeaserPage(url), {
+          status: 200,
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
+      }
+
+      if (url.pathname === '/catalog' || url.pathname === '/home') {
         return new Response(renderHomePage(), {
           status: 200,
           headers: { 'Content-Type': 'text/html; charset=utf-8' },
