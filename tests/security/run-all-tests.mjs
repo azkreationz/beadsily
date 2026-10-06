@@ -17,6 +17,7 @@ const testFiles = [
   path.join(__dirname, 'turnstile.test.mjs'),
   path.join(__dirname, 'stripe-security.test.mjs'),
   path.join(__dirname, 'privacy-coppa.test.mjs'),
+  path.join(__dirname, 'auth-package.test.mjs'),
 ];
 
 console.log('===============================================================');

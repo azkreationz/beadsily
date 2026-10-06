@@ -1,0 +1,14 @@
+{
+  "name": "@beadsily/auth",
+  "version": "1.0.0",
+  "description": "Zero-dependency Web Crypto session management, staff RBAC, Turnstile verification, and origin guards for BeadsILY",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["auth", "security", "cloudflare-workers", "turnstile", "rbac", "coppa"],
+  "author": "Dwight (dwight-muwicook)",
+  "license": "UNLICENSED"
+}
