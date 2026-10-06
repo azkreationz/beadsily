@@ -1,0 +1,27 @@
+{
+  "name": "@beadsily/email",
+  "version": "0.1.0",
+  "description": "BeadsILY Transactional Email Sending, Outbox Queue Handlers, Templates, and Inbound Sanitization",
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./templates": "./src/templates/index.mjs",
+    "./queue": "./src/outbox-queue.mjs",
+    "./sender": "./src/sender-adapter.mjs",
+    "./sanitizer": "./src/inbound-sanitizer.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/**/*.test.mjs"
+  },
+  "keywords": [
+    "cloudflare-workers",
+    "transactional-email",
+    "queue",
+    "d1",
+    "beadsily"
+  ],
+  "author": "Oscar (oscar-muwid2fm) <oscar@beadsily.com>",
+  "license": "UNLICENSED",
+  "private": true
+}
