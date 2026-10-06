@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Cloudflare & Wrangler
+.wrangler/
+.dev.vars
+dist/
+.open-next/
+
+# Next.js
+.next/
+out/
+
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env*.local
+*.pem
+*.key
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Logs & Test Artifacts
+*.log
+coverage/
+test-results/
